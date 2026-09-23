@@ -1,0 +1,200 @@
+\documentclass{ximera}
+
+\begin{document}
+
+    \title{Lecture 1}
+    
+    \begin{abstract} 
+    - Syllabus \\
+    - Introduction to dimensionality \\
+    - Eigendecomposition of a square matrix \\
+    - Theorem: not every square matrix has an eigendecomposition\\
+    - Non-square matrices? Least squares problems/underdetermined or overdetermined systems \\
+    - Basic facts
+    \end{abstract}
+    \maketitle
+
+
+For today, we will focus on some review, and emphasize the concept of dimensionality.
+
+Recall a Cartesian coordinate system, say in $\mathbb{R}^2$.  The basis is given by $[1;0], [0;1]$.  This gives a very clean basis.  
+
+\begin{example}
+    Let's consider the set of equations
+    \begin{align}
+        x &= 2 \\
+        y &= -1.
+    \end{align}
+    There is no need to solve!
+    What if instead,
+    \begin{align}
+        7x+3y &= 1
+        \\
+        3x-y &= 2?
+    \end{align}
+    Then, \textcolor{red}{how we can write this in matrix form}: let $\vec{x} = [x;y]$, and
+    \begin{align}
+    A\vec{x} = \vec{b}
+    \end{align}
+    where $A = \begin{bmatrix}
+        7 &3 \\3 & -1 
+    \end{bmatrix}$, $\vec{b} = [1;2]$.
+    Let's try to make this look like (1), (2) by considering the eigendecomposition of $A$.  \textcolor{red}{On the computer, compute the eigenvalues and eigenvectors.}
+
+    The matrix $A$ has eigenvalues $8$ and $-2$, corresponding to eigenvectors $\begin{bmatrix} 3\\1 \end{bmatrix}$ and $\begin{bmatrix} 1\\-3 \end{bmatrix}$, respectively.  Recall from linear algebra that we can construct the matrix $P$, where the columns of $P$ are the eigenvectors of $A$, and a diagonal matrix $D$, where the diagonals are given by the eigenvalues of $A$.  In other words,
+\begin{align}
+    AP &= A\begin{bmatrix} 3 & 1\\ 1 & -3 \end{bmatrix} \\
+    &= \begin{bmatrix} 3 & 1\\ 1 & -3 \end{bmatrix}\begin{bmatrix} 8 & 0\\ 0 & -2 \end{bmatrix}
+    \\&= PD
+\end{align}
+
+Consequently, the eigendecomposition is given by $A = PDP^{-1}$.  Here,
+\begin{align}
+    P^{-1} = \begin{bmatrix}
+        3/10 & 1/10 \\ 1/10 & -3/10.
+    \end{bmatrix}
+\end{align}
+Let's use this to rewrite $A$:
+\begin{align}
+    A\vec{x} &= \vec{b} \\
+    PDP^{-1}\vec{x} &= \vec{b} \\
+    DP^{-1}\vec{x} &= P^{-1}\vec{b}.
+\end{align}
+Define $\vec{z} = [z_1;z_2]:= P^{-1}\vec{x}$, and $\vec{c}:=P^{-1}\vec{b}$.
+\begin{align}
+    D \vec{z} &= P^{-1}\vec{b} \\
+    \begin{bmatrix} 8 & 0 \\ 0 &-2 \end{bmatrix} &= \vec{c}.
+\end{align}
+Decoupling, again, we can see that
+\begin{align}
+    8z_1 &= c_1 \\
+    -2z_2 = c_2.
+\end{align}
+Then, quite simply, $z_1 = c_1/8$ and $z_2 = -c_2/2$.  Back in matrix form,
+\begin{align}
+    \vec{z} &= \begin{bmatrix}
+        c_1/8 \\ -c_2/2
+    \end{bmatrix}
+    \\
+    P^{-1}\vec{x} &=  \begin{bmatrix}
+        c_1/8 \\ -c_2/2
+    \end{bmatrix}
+    \\
+    \vec{x} &= P \begin{bmatrix}
+        c_1/8 \\ -c_2/2
+    \end{bmatrix}.
+\end{align}
+This will give us the final solution for $x_1$ and $x_2$, only from an eigendecomposition and matrix multiplication.  
+\end{example}
+There was no need for back substitution in the previous example, though of course that method is also entirely viable and we will derive a variety of methods to do back substitution as well.
+
+\begin{example}
+For example, let's take the two differential equations
+\begin{align}
+    \frac{dx}{dt} &= 2x, \; x(0) = x_0 \\
+    \frac{dy}{dt} &= -y, \; y(0) = y_0
+\end{align}
+
+These two equations are completely separate from one another (not coupled).  Their solutions are
+\begin{align}
+    x(t) = x(0)e^{2t}\\
+    y(t) = y(0)e^{-t}.
+\end{align}
+This is very straightforward!  However, what if we have the following:
+\begin{align}
+    \frac{dx}{dt} &= 7x+3y, \; x(0) = x_0 \\
+    \frac{dy}{dt} &= 3x-y, \; y(0) = y_0
+\end{align}
+We can rewrite this as 
+\begin{align}
+    \frac{d}{dt} \begin{bmatrix}
+        x(t) \\y(t) 
+    \end{bmatrix} &= \begin{bmatrix}
+        7 &3 \\3 & -1 
+    \end{bmatrix}\begin{bmatrix}
+        x(t) \\y(t) 
+    \end{bmatrix} = A\begin{bmatrix}
+        x(t) \\y(t) 
+    \end{bmatrix}
+\end{align}
+
+Now, let's use this to rewrite the differential equation using the form $\vec{x} = \begin{bmatrix} x \\ y\end{bmatrix}$:
+\begin{align}
+    \frac{d}{dt} \vec{x} = A\vec{x} = PDP^{-1}\vec{x}
+    \\
+    P^{-1}\left(\frac{d}{dt} \vec{x}\right) = DP^{-1}\vec{x}\\
+    \frac{d}{dt} \left(P^{-1}\vec{x}\right) = DP^{-1}\vec{x}
+\end{align}
+Let $\vec{z}(t) = \begin{bmatrix} z_1(t) \\z_2(t) \end{bmatrix} := P^{-1} \vec{x}(t)$; then we have the differential equation
+\begin{align}
+    \frac{d}{dt} \vec{z} = D\vec{z}
+\end{align}
+which we can rewrite as 
+\begin{align}
+    \frac{dz_1}{dt} &= 8z_1
+    \\
+    \frac{dz_2}{dt} &= -2z_2.
+\end{align}
+What is the solution to this?
+\begin{align}
+    z_1(t) &= z_1(0) e^{8t}
+    \\
+    z_2(t) &= z_2(0)e^{-2t}
+\end{align}
+
+We can rewrite this back in matrix form:
+\begin{align}
+   \vec{z}(t) &= \begin{bmatrix}e^{8t} & 0 \\ 0 & e^{-2t} \end{bmatrix} \vec{z}(0)
+   \\
+   P^{-1}\vec{x}(t) &= \begin{bmatrix}e^{8t} & 0 \\ 0 & e^{-2t} \end{bmatrix} P^{-1}\vec{x}(0) \\
+  \vec{x}(t) &= P\begin{bmatrix}e^{8t} & 0 \\ 0 & e^{-2t} \end{bmatrix} P^{-1}\vec{x}(0).
+\end{align}
+This allows us, by considering a different basis for $\mathbb{R}^2$, to solve the equations easily!
+\end{example}
+
+\textcolor{red}{PROBLEM} Not every square matrix has an eigendecomposition!  
+It only applies to matrices where the geometric multiplicity equals the algebraic multiplicity.
+\begin{example}
+   Shear matrix:
+   \begin{align}
+       \begin{bmatrix}
+           1 & -1\\ 0 & 1
+       \end{bmatrix}
+   \end{align}
+   has an eigenvalue $1$ with algebraic multiplicity $2$, but geometric multiplicty $1$, i.e. it has one eigenvector $[1; 0]$.  Matrices are only invertible if they are full rank, and therefore the matrix of eigenvectors is not invertible.
+ \end{example}
+
+One portion of this course will focus on different ways to identify different natural dimensions for the range of a matrix to solve problems more easily.  Specifically, the types of problems we will focus on solving are of the form $A\vec{x} = \vec{b}$ and the least squares problem 
+\begin{align}
+    \text{Given } A \in \mathbb{C}^{m\times n}, \; m \geq n, \; \vec{b} \in \mathbb{C}^m \\
+    \text{find } \vec{x} \in \mathbb{C}^n \text{ such that } \|\vec{b} - A\vec{x}\|_2 \text{ is minimized}.
+ \end{align}
+The first problem is very limited in when it can be solved, and we will encounter, thanks to noisy data, too much information (a fat matrix), or too little information (a skinny matrix), that we often do not have this case.  Consequently, solving the second problem above becomes absolutely critical.  \textbf{The least squares problem is one of the foundational problems in all of data science, including AI algorithms.}
+
+Now we will proceed with some reminders and extensions of some basic defintions.
+\begin{definition}
+    The \textit{complex conjugate} of a scalar $z= a+b\mathrm{i}$, written $\overline{z}$ or $z^*$, is equal to $a-b\mathrm{i}$.  The \textit{hermitian conjugate, conjugate transpose, or adjoint} of an $m \times n$ matrix $A$, written $A^*$, is the $n \times m$ matrix whose $i,j$ entry is the complex conjugate of the $j,i$ entry of $A$.  If $A=A^*$, then $A$ is hermitian.
+\end{definition}
+\begin{definition}
+    The \textit{inner product} of two column vectors $x,y \in \mathbb{C}^m$ is the product of the adjoint of $x$ by $y$:
+    \begin{align}
+        x^*y = \sum\limits_{i=1}^m \overline{x}_iy_i.
+    \end{align}
+    The \textit{Euclidean length} of $x$ may be written $\|x\|$ can can be defined as the square root of the inner product of $x$ with itself:
+    \begin{align}
+        \|x\| = \sqrt{x^*x} = \left(\sum\limits_{i=1}^m |x_i|^2\right)^{\frac12}
+    \end{align}
+ \end{definition}
+
+Important properties:
+\begin{itemize}
+    \item the inner product is bilinear
+    \item the cosine of the angle between $x$ and $y$ can be written in terms of the inner product: $\cos(\alpha) = (x^*y)/(\|x\|\|y\|)$
+    \item $(AB)^* = B^*A^*$
+    \item $(AB)^{-1} = B^{-1}A^{-1}$
+\end{itemize}
+\begin{definition}
+    Two vectors are \textit{orthogonal} if $x^*y = 0$.
+\end{definition}
+
+\end{document}

@@ -1,0 +1,88 @@
+\documentclass{ximera}
+
+\begin{document}
+
+    \title{Lecture 2}
+    
+    \begin{abstract} 
+    - IEEE standard \\
+    - Big O, little O notation \\
+    - Condition numbers
+    \end{abstract}
+    \maketitle
+
+% Note to other lecturers for this source material
+\textit{Lecture includes selections from Chapter 1 of Demmel's book ``Applied NLA", as well as the introduction in Higham's ``Accuracy \& Stability of Numerical Algorithms"}
+
+The answers produced by numerical algorithms are seldom exact correct.  There are \textcolor{red}{two sources} of error. 
+\begin{enumerate}
+    \item Errors in the input data to the algorithm (cause: prior calculations/measurement error) 
+    \begin{itemize}
+        \item Run in Matlab the following code:
+        \begin{verbatim}
+            for i = 1:60
+                x = \sqrt{x}
+            end
+            for i = 1:60
+                x = x^2
+            end
+        \end{verbatim}
+    \end{itemize}
+    \item Errors caused by the algorithm itself due to approximation made within the algorithm
+    \begin{itemize}
+        \item Let $f(x)$ be a real-valued differentiable function, but perhaps we cannot represent a real number $x$ exactly on a computer, instead $x + \delta x$ can be exactly represented.  Bounding $|f(x+\delta x) - f(x)|$.  A simple linear approximation using Taylor series is $f(x+\delta x) \approx f(x) + \delta x f'(x)$, so the error is $|f(x+\delta x) - f(x)| \approx |\delta x| |f'(x)|$.  We call $|f'(x)|$ the \textcolor{red}{absolute condition number} of $f$ at $x$.  If $|f'(x)|$ is large enough, the error may be large even if $\delta x$ is small; in this case we say $f$ is \textcolor{red}{ill-conditioned}.
+        \begin{definition}
+            If $\text{alg}(x)$ is our algorithm for f(x), including the effects of roundoff, we call $\text{alg}(x)$ a \textcolor{red}{backward stable algorithm} for f(x) if for all $x$ there isa  ``small" $\delta x$ such that $\text{alg}(x) = f(x+\delta x)$.  Informally, we say that we get the exact answer $(f(x+\delta x))$ for a slightly wrong problem $(x+\delta x)$.
+        \end{definition}
+        \item Proving an algorithm is backward stable requires knowledge of roundoff error of the basic floating point operations of the machine and how these errors propagate through an algorithm.
+    \end{itemize}
+\end{enumerate}
+
+Okay!  So what are flops?
+
+A number -3.1416 can be expressed in scientific notation as follows
+\begin{align}
+    \underset{\text{sign}}{-} \quad \underset{\text{fraction}}{.31416} \times \underset{\text{base}}{10}^{\underset{\text{exponent}}{1}}
+\end{align}
+Computers do exactly the same, but with base $2$ instead.  For example, $.10101_2\times 2^3 = .525_{10}\times 10^1$.  A floating point number is called \textcolor{red}{normalized} if the leading digit of the fraction is nonzero.  For example, $.10101_2\times 2^3$ is normalized but $.010101_2\times 2^4$ is not.  Most floating point numbers are normalized, giving two important properties: 1) each nonzero floating point value has a unique representation as a bit string, and 2) in binary the leading $1$ in the fraction need not be stored explicitly, leaving one extra bit a longer, more accurate fraction.
+
+Precision 
+\textit{Relative Representation Error}
+    The expression $.31416\times 10^1$ has five significant figures, and thus if this is the highest precision representation of a number on a computer, any information less than $.5\times 10^4$ is lost.  Thus, the \textcolor{red}{relative representation error} is
+    \begin{align}
+        \frac{|x-.31416\times 10^1|}{.31416\times 10^1} \leq \frac{.5\times 10^4}{.31416\times 10^1} \approx .16 \times 10^4
+    \end{align}
+    The maximum relative representation error in a normalized number occurs for $.10000\times 10^1$, which is the most accurate five-digit approximation of all numbers in $[.999995, 1.00005]$.  The relative error is therefore bounded by $.5\times 10^{-4}$.  
+    \begin{definition}
+        The maximum relative representation error in a floating point arithmetic with $p$ digits and base $\beta$ is $.5\times \beta^{1-p}$. (Note that this is half the distance between 1 and the next largest floating point number, $1+\beta^{1-p}$.)
+    \end{definition}
+
+\textit{Single Precision}
+\begin{itemize}
+    \item If the sign $s$, exponent $e$, and fraction $f<1$ are 1-bit sign, 8-bit exponent, and 23-bit fraction in IEEE triple precision format, respectively, then the number is represented by $(-1)^s \cdot 2^{e-127}\cdot(1+f)$
+    \item Maximum relative representation error: $2^{-24} \approx 6\times 10^{-8} = \mathcal{O}(10^{-7})$
+    \item Range of positive normalized numbers: $[2^{-126}, 2^{127}]$ ([underflow threshold, overflow threshold])
+\end{itemize}
+
+\textit{Double Precision}
+\begin{itemize}
+    \item If the sign $s$, exponent $e$, and fraction $f<1$ are 1-bit sign, 11-bit exponent, and 52-bit fraction in IEEE triple precision format, respectively, then the number is represented by $(-1)^s \cdot 2^{e-1023}\cdot(1+f)$
+    \item Maximum relative representation error: $2^{-24}\approx 10^{-16}$
+    \item Range of positive normalized numbers: $[2^{-1022}, 2^{1023}\cdot (2-2^{-52})\approx 2^{1024}]$ ([underflow threshold, overflow threshold])
+\end{itemize}
+
+\textit{IEEE Arithmetic}
+\begin{itemize}
+    \item If a flop $\odot$ does not produce an exact floating point number, i.e. $a\odot b \neq \text{fl}(a\odot b)$, where $\text{fl}(a\odot b)$ is the nearest floating point number to $a \odot b$, there is \textcolor{red}{roundoff error} equal to $a\odot b - \text{fl}(a\odot b)$.
+    \item Can write $\text{fl}(a\odot b) = (a \odot b)(1+\delta)$ where $|\delta|$ is bounded by $\epsilon$ called \textcolor{red}{machine epsilon, machine precision, or macheps}, equal of course to the maximum relative representation error
+    \item IEEE arithmetic also guarantees that $\text{fl}(\sqrt(a)) = \sqrt{a}(1+\delta)$
+    \item IEEE arithmetic is designed to preserve as many mathematical relationships as possible
+\end{itemize}
+
+Designing algorithms to minimize precision error is a fundamental aspect of designing numerical algorithms.
+
+\textbf{Throughout this course, we will investigate not only different ways of using linear algebra to identify different properties of the image space, but also explain when the numerics requires new innovation and techniques to implement what are theoretically intuitive algorithms. One of our first examples will be Gram-Schmidt orthogonalization.}
+
+
+
+\end{document}
