@@ -2,73 +2,16 @@
 
 \begin{document}
 
-    \title{Lecture 2}
+    \title{Lecture 3}
     
     \begin{abstract} 
-    - Finish basic definitions \\
-    - Condition numbers \& relative error \\
-    - IEEE standard: single precision
+    - IEEE standard: double precision \\
+    - Big O, little O notation \\
+    - BLAS and LAPACK introduction
     \end{abstract}
     \maketitle
 
-% Note to other lecturers for this source material
-\textit{Lecture includes selections from Chapter 1 of Demmel's book ``Applied NLA", as well as the introduction in Higham's ``Accuracy \& Stability of Numerical Algorithms"}
-
-
-\begin{definition}
-    The \textit{inner product} of two column vectors $x,y \in \mathbb{C}^m$ is the product of the adjoint of $x$ by $y$:
-    \begin{align}
-        x^*y = \sum\limits_{i=1}^m \overline{x}_iy_i.
-    \end{align}
-    The \textit{Euclidean length} of $x$ may be written $\|x\|$ can can be defined as the square root of the inner product of $x$ with itself:
-    \begin{align}
-        \|x\| = \sqrt{x^*x} = \left(\sum\limits_{i=1}^m |x_i|^2\right)^{\frac12}
-    \end{align}
- \end{definition}
-
-Important properties:
-\begin{itemize}
-    \item the inner product is bilinear
-    \item the cosine of the angle between $x$ and $y$ can be written in terms of the inner product: $\cos(\alpha) = (x^*y)/(\|x\|\|y\|)$
-    \item $(AB)^* = B^*A^*$
-    \item $(AB)^{-1} = B^{-1}A^{-1}$
-\end{itemize}
-\begin{definition}
-    Two vectors are \textit{orthogonal} if $x^*y = 0$.
-\end{definition}
-
-
-The answers produced by numerical algorithms are seldom exact correct.  There are \textcolor{red}{two sources} of error. 
-\begin{enumerate}
-    \item Errors in the input data to the algorithm (cause: prior calculations/measurement error) 
-    \begin{itemize}
-        \item Run in Matlab the following code:
-        \begin{verbatim}
-            for i = 1:60
-                x = \sqrt{x}
-            end
-            for i = 1:60
-                x = x^2
-            end
-        \end{verbatim}
-    \end{itemize}
-    \item Errors caused by the algorithm itself due to approximation made within the algorithm
-    \begin{itemize}
-        \item Let $f(x)$ be a real-valued differentiable function, but perhaps we cannot represent a real number $x$ exactly on a computer, instead $x + \delta x$ can be exactly represented.  Bounding $|f(x+\delta x) - f(x)|$.  A simple linear approximation using Taylor series is $f(x+\delta x) \approx f(x) + \delta x f'(x)$, so the error is $|f(x+\delta x) - f(x)| \approx |\delta x| |f'(x)|$.  We call $|f'(x)|$ the \textcolor{red}{absolute condition number} of $f$ at $x$.  If $|f'(x)|$ is large enough, the error may be large even if $\delta x$ is small; in this case we say $f$ is \textcolor{red}{ill-conditioned}.
-        \begin{definition}
-            If $\text{alg}(x)$ is our algorithm for f(x), including the effects of roundoff, we call $\text{alg}(x)$ a \textcolor{red}{backward stable algorithm} for f(x) if for all $x$ there is a  ``small" $\delta x$ such that $\text{alg}(x) = f(x+\delta x)$.  Informally, we say that we get the exact answer $(f(x+\delta x))$ for a slightly wrong problem $(x+\delta x)$.
-        \end{definition}
-        \item Proving an algorithm is backward stable requires knowledge of roundoff error of the basic floating point operations of the machine and how these errors propagate through an algorithm.
-    \end{itemize}
-\end{enumerate}
-
-Okay!  So what are flops?
-
-A number -3.1416 can be expressed in scientific notation as follows
-\begin{align}
-    \underset{\text{sign}}{-} \quad \underset{\text{fraction}}{.31416} \times \underset{\text{base}}{10}^{\underset{\text{exponent}}{1}}
-\end{align}
-Computers do exactly the same, but with base $2$ instead.  For example, $.10101_2\times 2^3 = .525_{10}\times 10^1$.  A floating point number is called \textcolor{red}{normalized} if the leading digit of the fraction is nonzero.  For example, $.10101_2\times 2^3$ is normalized but $.010101_2\times 2^4$ is not.  Most floating point numbers are normalized, giving two important properties: 1) each nonzero floating point value has a unique representation as a bit string, and 2) in binary the leading $1$ in the fraction need not be stored explicitly, leaving one extra bit a longer, more accurate fraction.
+REVIEW
 
 Precision 
 
@@ -89,8 +32,7 @@ Precision
     \item Range of positive normalized numbers: $[2^{-126}, 2^{127}]$ ([underflow threshold, overflow threshold])
 \end{itemize}
 
-\end{document}
-
+WHERE WE LEFT OFF
 
 \begin{center}
 \includegraphics[width=0.85\textwidth]{xmPictures/ieee_scale_singlePrecision.png}
@@ -121,3 +63,8 @@ Designing algorithms to minimize precision error is a fundamental aspect of desi
 \end{itemize}
 
 \textbf{Throughout this course, we will investigate not only different ways of using linear algebra to identify different properties of the image space, but also explain when the numerics requires new innovation and techniques to implement what are theoretically intuitive algorithms. One of our first examples will be Gram-Schmidt orthogonalization.}
+
+\end{document}
+
+
+
