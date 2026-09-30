@@ -4,19 +4,80 @@
 
     \title{Homework 1}
     
-    \begin{abstract} Solve the following problems. \end{abstract}
+    \begin{abstract} Solve the following problems.
+    \\
+    Due Date: Tuesday, October 6th, 11:59 pm
+    \end{abstract}
     \maketitle
 
     \begin{exercise}
-        Show that if $a,b  \geq  0 $, then 
-        \[     a  + b \geq 2 \sqrt{ab}.           \]
-        \begin{hint}
-            Recall that \,  $(x-y)^2 \geq 0$ for all $x,y \in \mathbb{R}$.
-        \end{hint}
+        Let $A$ be an orthogonal matrix.  
+        \begin{enumerate}
+            \item Show that $\det(A) = \pm 1$.
+            \item Show that if $B$ is also orthogonal and $\det(A) = -\det(B)$, then $A+B$ is singular.
+        \end{enumerate}  
     \end{exercise}    
 
+Let us consider a more formal definition of inner product:
+Let us recall a more formal definition of inner product:
+\begin{definition}
+    Let $\mathcal{B}$ be a real or complex linear space.  The function $\langle \cdot, \cdot\rangle :\mathcal{B} \times \mathcal{B} \to \mathbb{R} \; (\mathbb{C})$ is an inner product if all of the following apply:
+    \begin{enumerate}
+        \item $\langle x, y \rangle = \langle y,x \rangle$ (or, in complex case, $\overline{\langle y,x\rangle}$.
+        \item $\langle x, y+x \rangle = \langle x, y \rangle + \langle x, z \rangle$
+        \item $\langle \alpha x, y \rangle = \alpha \langle x, y \rangle$ for any real (or complex) scalar $\alpha$
+        \item $\langle x, x \rangle \geq 0$, and exactly $0$ if and only if $x = 0$.
+    \end{enumerate}
+\end{definition}
+\begin{exercise}
+    Show that the dot product $x^Ty$ ($x^*y$) is an inner product in the sense of the definition above, i.e. show that the dot product satisfies all 4 properties.  (You need only prove it only for the complex case. Why?)
+\end{exercise}
+
+\begin{exercise}
+    Let $A$ be an $m \times n$ matrix, and $x$ be an $n \times 1$ vector.  Write the product $Ax$ using summation notation with indices in two ways: 1) as a sum of elements and 2) as a vector of dot products.
+\end{exercise}
+
+\begin{exercise}
+
+\begin{enumerate}
+    \item Show that if a matrix is orthogonal and triangular, then it is diagonal.  What are its diagonal elements?
+    \item A matrix is strictly upper triangular if it is upper triangular with zero diagonal elements.  Show that if $A$ is strictly upper triangular and $n \times n$, then $A^n = 0$.
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+\textit{Please submit your code in a .m or .py file on Canvas.}
+    \begin{enumerate}
+    \item Plot the function $y = \log(1+x)/x$ on the interval $[-1,1]$, with 50,000 evenly spaced points between $-1$ and $1$.  (The corresponding command in Matlab to do this is \verb|linspace|.)  Exclude the left endpoint (for obvious reasons).
+    \item Plot the function $y = \log(1+x)/x$ on the interval $[-10^{15},10^{15}]$, with 50,000 evenly spaced points between $-1$ and $1$.  What is wrong with this picture?
+    \end{enumerate}
+     Mathematically, $y$ is a smooth function of $x$ near $x = 0$, equaling $1$ at $0$.  But, as computed above this formula is clearly unstable near $x = 0$.  On the other hand, consider the algorithm
+    \begin{verbatim}
+        d = 1+x
+        if d = 1 then 
+            y = 1
+        else
+            y = log(d)/(d-1)
+        end if
+    \end{verbatim}  
+    \begin{enumerate}
+        \item Using the new algorithm, plot the function between $[-1,1]$ with 50,000 evenly spaced points (again excluding the left endpoint for obvious reasons). 
+        \item Using the new algorithm, plot the the function between $[-10^{-15},10^{-15}]$ with 50,000 evenly spaced points.
+    \end{enumerate}
+    
+    Explain this phenomenon, proving that the second algorithm must compute an accurate answer in floating point arithmetic.  (This is true of any reasonable implementation of logarithm.)  Assume IEEE floating point arithmetic if that makes your argument easier. 
+
+\end{exercise}
 
 
+\textbf{Graduate Students:} (bonus point for undergrads)
 
+\begin{definition}
+    A real symmetric (complex Hermitian) matrix $A$ is positive definite if $x^TAx > 0$ ($x^*Ax > 0)$ for all $x\neq 0$.  We abbreviate symmetric positive definite to s.p.d, and hermitian positive definite as h.p.d.
+\end{definition}
+
+\begin{exercise}
+    Prove the following: Let $\mathcal{B} = \mathbb{R}^n$ (or $\mathbb{C}^n$) and $\langle \cdot, \cdot \rangle$ be an inner product.  Then there is an $n \times n$ s.p.d (h.p.d.) matrix $A$ such taht $\langle x, y \rangle = y^TAx$ ($y^*Ax$).  Conversely, if $A$ is s.p.d. (h.p.d.), then $y^TAx$ ($y^*Ax$) is an inner product.
+\end{exercise}
 
 \end{document}

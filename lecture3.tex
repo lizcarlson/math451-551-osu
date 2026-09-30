@@ -6,14 +6,13 @@
     
     \begin{abstract} 
     - IEEE standard: double precision \\
-    - Big O, little O notation \\
-    - BLAS and LAPACK introduction
+    - Big O \\
+    - BLAS and LAPACK introduction \\
+    - Orthogonality
     \end{abstract}
     \maketitle
 
-REVIEW
-
-Precision 
+Last time: Precision 
 
 \textit{Relative Representation Error}
     The expression $.31416\times 10^1$ has five significant figures, and thus if this is the highest precision representation of a number on a computer, any information less than $.5\times 10^4$ is lost.  Thus, the \textcolor{red}{relative representation error} is
@@ -32,7 +31,7 @@ Precision
     \item Range of positive normalized numbers: $[2^{-126}, 2^{127}]$ ([underflow threshold, overflow threshold])
 \end{itemize}
 
-WHERE WE LEFT OFF
+\textit{Continued}
 
 \begin{center}
 \includegraphics[width=0.85\textwidth]{xmPictures/ieee_scale_singlePrecision.png}
@@ -53,7 +52,8 @@ WHERE WE LEFT OFF
     \item IEEE arithmetic is designed to preserve as many mathematical relationships as possible
 \end{itemize}
 
-Now a brief aside:  when determining how expensive an algorithm is, we are adding up the number of flops we are doing.  For example, one multiplication is 1 flop, while the multiplication of two $n \times n $ matrices is $n^3$ flops. If we multiply  two $n\times n$ matrices, and then add ones along the diagonal of the resulting product, that is $n^3 + n$ flops.  As $n$ gets large, we only care about the largest value in terms of compute time.  The notation $\mathcal{O}$ is used to identify this largest degree term in the polynomial, so $n^3 + n$ would be called an $\mathcal{O}(n^3)$ algorithm.  There are more precise definitions, and even a little ``o" notation $\mathcal{o}$, but we won't be needing much of that in this course.  Storage, i.e. assigning a spot in memory for a vector or a matrix, costs the same number of flops as there are entries in the object: e.g., it costs $m\times n$ flops to store a $m\times n$ matrix.
+Now a brief aside:  when determining how expensive an algorithm is, we are adding up the number of flops we are doing.  For example, one multiplication is 1 flop, while the multiplication of two $n \times n $ matrices is $n^3$ flops. If we multiply  two $n\times n$ matrices, and then add ones along the diagonal of the resulting product, that is $n^3 + n$ flops.  As $n$ gets large, we only care about the largest value in terms of compute time.  The notation $\mathcal{O}$ is used to identify this largest degree term in the polynomial, so $n^3 + n$ would be called an $\mathcal{O}(n^3)$ algorithm.  %There are more precise definitions, and even a little ``o" notation $\mathcal{o}$, but we won't be needing much of that in this course. 
+Storage, i.e. assigning a spot in memory for a vector or a matrix, costs the same number of flops as there are entries in the object: e.g., it costs $m\times n$ flops to store a $m\times n$ matrix.
 
 Designing algorithms to minimize precision error is a fundamental aspect of designing numerical algorithms.  The package BLAS, abbreviation for Basic Linear Algebra Subprograms, and LAPACK, short for Linear Algebra Package.  Nearly all programming languages use these packages, each of which have built in optimal methods for solving linear algebra problems under the constraints of IEEE arithmetic.  
 \begin{itemize}
@@ -63,6 +63,64 @@ Designing algorithms to minimize precision error is a fundamental aspect of desi
 \end{itemize}
 
 \textbf{Throughout this course, we will investigate not only different ways of using linear algebra to identify different properties of the image space, but also explain when the numerics requires new innovation and techniques to implement what are theoretically intuitive algorithms. One of our first examples will be Gram-Schmidt orthogonalization.}
+
+Our main focus will be on the \textit{computational cost} of the algorithm.
+
+Let's talk about orthogonality.
+
+\begin{theorem}
+    The vectors in an orthogonal set $S$ are linearly independent.
+\end{theorem}
+\begin{proof}
+    If the vectors in $S$ are not independent, then some $v_k\in S$ can be expressed as a linear combination of the other members $v_1, ..., v_n \in S$, 
+    \begin{align}
+        v_k = \sum\limits_{\stackrel{i=1}{i\neq k}}^n c_iv_i.
+    \end{align}
+    Since $v_k \neq 0$, $v_k^*v_k= \|v_k\|^2>0$.  Using the bilinearity of the inner products and the orthogonality of $S$, we can compute that
+    \begin{align}
+        \|v_k\|^2 &= \langle \sum\limits_{\stackrel{i=1}{i\neq k}}^n c_iv_i, v_k\rangle 
+        \\
+        &=  \sum\limits_{\stackrel{i=1}{i\neq k}}^n c_i\langle v_i, v_k\rangle  = 0.
+    \end{align}
+\end{proof}
+
+Inner products are often used to decompose arbitrary vectors into orthogonal components.
+
+For example, suppose $S = \{q_1, q_2, ..., q_n\}$ is an orthonormal set (where orthonormal means the set is orthogonal and each $\|q_j\| = 1$), and let $v$ be an arbitrary vector.  The value $q_j^*v$ is a scalar.  Let us consider the vector
+\begin{align}
+    r = v - (q_1^*v)q_1- (q_2^*v)q_2- \cdots - (q_n^*v)q_n
+\end{align}
+% \textcolor{red}{DRAW PICTURE}
+and we note that this is orthogonal to the entire set $S$:
+
+\begin{align}
+    \langle q_k,r \rangle &= q_k^*r \\
+    &= q_k^*v - (q_1^*v)(q_k^*q_1)- (q_2^*v)(q_k^*q_2)- \cdots - (q_n^*v)(q_k^*q_n) \\
+    &= q_k^*v - (q_k^*v)(q_k^*q_k).
+\end{align}
+By the orthonormality, this is $0$.  Therefore, $v$ can be decomposed into $n+1$ orthogonal components, $v = r + \sum\limits_{i=1}^n (q_i^*v)q_i = r + \sum\limits_{i=1}^n(q_iq_i^*)v$.
+
+If $S$ is a basis for $\mathbb{C}^m$, then $n = m$ and $r$ must be the $0$ vector, so $v$ is completely decomposed into $m$ orthogonal components in the directions of $q_i$:
+\begin{align}
+    v = \sum\limits_{i=1}^m (q_i^*v)q_i = \sum\limits_{i=1}^m (q_iq_i^*)v.
+\end{align}
+These expressions are equal, but have different interpretations.  The first, we view $v$ as a sum of coefficients $q_i^*v$ times the vecotrs $q_i$.  The second, we are seeing $v$ as a sum of orthogonal projections of $v$ onto various directions $q_i$.  The $i$th projection is achieved by rank-1 matrix $q_iq_i^*$.
+
+Final note for today for introduction:
+\begin{definition}
+A square matrix $Q \in \mathbb{C}^{m \times m}$  is unitary (in the real case, we say orthogonal) if $Q^* = Q^{-1},$ i.e. $Q^*Q = I$.
+\end{definition}
+
+\textcolor{red}{Why is this matrix called orthogonal?  Discuss at your tables.}
+
+Consider the expression $Qx = b$.  Note that the solution in this case is given by $x = Q^*b$.  Originally, before solving the problem, $b$ is expressed in the standard Euclidean basis $b = b_1e_1 + \cdots b_ne_n$.   $Q^*b$, however, is the vector of coefficients of the expansion of $b$ in the basis of the columns of $Q$.  \textcolor{red}{This is not an obvious statement unless you write out the columns explicitly.  Your homework, which will be posted later today, will guide you through starting to think about matrix columns more consistently as a basis, whether a good or a bad one.}
+The power of identifying if $A$ in $Ax=b$ is unitary matrices is that they preserve the original inner product structure:
+\begin{align}
+    (Qx)^*Qy = x^*Q^*Qy = x^*y.
+\end{align}
+If an inner product is preserved, that means the image space preserves the angles between vectors and their lengths. 
+
+Physical interpretation: if the entries of $Q$ are real, this corresponds to a rigid rotation (if $\det Q = 1$) or rotation and reflection (if $\det Q = -1$).
 
 \end{document}
 

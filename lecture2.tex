@@ -73,9 +73,9 @@ Computers do exactly the same, but with base $2$ instead.  For example, $.10101_
 Precision 
 
 \textit{Relative Representation Error}
-    The expression $.31416\times 10^1$ has five significant figures, and thus if this is the highest precision representation of a number on a computer, any information less than $.5\times 10^4$ is lost.  Thus, the \textcolor{red}{relative representation error} is
+    The expression $.31416\times 10^1$ has five significant figures, and thus if this is the highest precision representation of a number on a computer, any information less than $.5\times 10^{-4}$ is lost.  Thus, the \textcolor{red}{relative representation error} is
     \begin{align}
-        \frac{|x-.31416\times 10^1|}{.31416\times 10^1} \leq \frac{.5\times 10^4}{.31416\times 10^1} \approx .16 \times 10^4
+        \frac{|x-.31416\times 10^1|}{.31416\times 10^1} \leq \frac{.5\times 10^{-4}}{.31416\times 10^1} \approx .16 \times 10^{-4}
     \end{align}
     The maximum relative representation error in a normalized number occurs for $.10000\times 10^1$, which is the most accurate five-digit approximation of all numbers in $[.999995, 1.00005]$.  The relative error is therefore bounded by $.5\times 10^{-4}$.  
     \begin{definition}
