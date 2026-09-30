@@ -1,0 +1,53 @@
+\documentclass{ximera}
+\begin{document}
+
+    \title{Lecture 3}
+    
+    \begin{abstract} 
+    - Condition numbers of matrices \\
+    - Norms \\
+    \end{abstract}
+    \maketitle
+
+Suppose I am considering the problem that this entire class is about: $Ax = b$.  Numerically, I will have some trouble potentially representing $A$ and $b$, so maybe my computer will actually be solving the problem $(A+\delta A) \hat{x} = b+\delta b$.  We want to bound the norm of the error $\delta x:= \hat{x} - x$.  Let's do a simple subtraction:
+
+\begin{align*}
+    (A+\delta A)(x+\delta x) &= b+ \delta b \\
+    - \phantom{yoooomannnnn} Ax&=b\\
+    \hline
+    \delta Ax + (A+\delta A)\delta x &= \delta b
+\end{align*}
+Rearranging yields
+\begin{align}
+    \delta x = A^{-1}(-\delta A\hat{x} + \delta b).
+\end{align}
+
+Taking norms, we see that 
+\begin{align}
+    \|\delta x\| = \|A^{-1}(-\delta A\hat{x} + \delta b)\|.
+\end{align}
+Right now, I am having trouble understanding how this norm relates to the structure of $A^{-1}$ and $\delta A$ in general, as well as $\delta b$ and $\hat{x}$, because the norm is on the whole product.  Let's use this to motivate looking at a more general definition of norms of vectors, and also norms of matrices (also known as an operator norm).
+
+\begin{definition}
+    A norm is a function $\|\cdot \|: \mathbb{C}^m \to \mathbb{R}$ that assigns a real-valued length to each vector.  It satisfies the following three conditions: for all $x, y \in \mathbb{C}^m$ and for all $\alpha \in \mathbb{C}$,
+    \begin{enumerate}
+        \item $\|x\|\geq 0$, and $\|x\| = 0$ only if $x=0$
+        \item $\|x+y\| \leq \|x\| + \|y\|$
+        \item $\|\alpha x\| = |\alpha|\|x\|$.
+    \end{enumerate}
+\end{definition}
+
+Before, we mentioned only the Euclidean norm; this is the more general definition of norm, giving us a lot of flexibility in assigning new types of lengths (e.g., yards vs meters).
+
+The most important class of vector norms, the $p$-norms, are defined with images below:
+
+\begin{center}
+\includegraphics[width=0.85\textwidth]{xmPictures/norms_pic.png}
+\end{center}
+
+Weighted $p$-norms
+
+\end{document}
+
+
+

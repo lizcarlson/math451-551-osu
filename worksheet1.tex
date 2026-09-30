@@ -24,7 +24,7 @@ Let us recall a more formal definition of inner product:
     Let $\mathcal{B}$ be a real or complex linear space.  The function $\langle \cdot, \cdot\rangle :\mathcal{B} \times \mathcal{B} \to \mathbb{R} \; (\mathbb{C})$ is an inner product if all of the following apply:
     \begin{enumerate}
         \item $\langle x, y \rangle = \langle y,x \rangle$ (or, in complex case, $\overline{\langle y,x\rangle}$.
-        \item $\langle x, y+x \rangle = \langle x, y \rangle + \langle x, z \rangle$
+        \item $\langle x, y+z \rangle = \langle x, y \rangle + \langle x, z \rangle$
         \item $\langle \alpha x, y \rangle = \alpha \langle x, y \rangle$ for any real (or complex) scalar $\alpha$
         \item $\langle x, x \rangle \geq 0$, and exactly $0$ if and only if $x = 0$.
     \end{enumerate}
@@ -77,7 +77,7 @@ Let us recall a more formal definition of inner product:
 \end{definition}
 
 \begin{exercise}
-    Prove the following: Let $\mathcal{B} = \mathbb{R}^n$ (or $\mathbb{C}^n$) and $\langle \cdot, \cdot \rangle$ be an inner product.  Then there is an $n \times n$ s.p.d (h.p.d.) matrix $A$ such taht $\langle x, y \rangle = y^TAx$ ($y^*Ax$).  Conversely, if $A$ is s.p.d. (h.p.d.), then $y^TAx$ ($y^*Ax$) is an inner product.
+    Prove the following: Let $\mathcal{B} = \mathbb{R}^n$ (or $\mathbb{C}^n$) and $\langle \cdot, \cdot \rangle$ be an inner product.  Then there is an $n \times n$ s.p.d (h.p.d.) matrix $A$ such that $\langle x, y \rangle = y^TAx$ ($y^*Ax$).  Conversely, if $A$ is s.p.d. (h.p.d.), then $y^TAx$ ($y^*Ax$) is an inner product.
 \end{exercise}
 
 \end{document}
