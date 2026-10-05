@@ -49,7 +49,7 @@ Let us recall a more formal definition of inner product:
 \textit{Please submit your code in a .m or .py file on Canvas.}
     \begin{enumerate}
     \item Plot the function $y = \log(1+x)/x$ on the interval $[-1,1]$, with 50,000 evenly spaced points between $-1$ and $1$.  (The corresponding command in Matlab to do this is \verb|linspace|.)  Exclude the left endpoint (for obvious reasons).
-    \item Plot the function $y = \log(1+x)/x$ on the interval $[-10^{15},10^{15}]$, with 50,000 evenly spaced points between $-1$ and $1$.  What is wrong with this picture?
+    \item Plot the function $y = \log(1+x)/x$ on the interval $[-10^{-15},10^{-15}]$, with 50,000 evenly spaced points between $-1$ and $1$.  What is wrong with this picture?
     \end{enumerate}
      Mathematically, $y$ is a smooth function of $x$ near $x = 0$, equaling $1$ at $0$.  But, as computed above this formula is clearly unstable near $x = 0$.  On the other hand, consider the algorithm
     \begin{verbatim}
