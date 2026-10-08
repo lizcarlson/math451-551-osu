@@ -4,16 +4,99 @@
 
     \title{Homework 2}
     
-    \begin{abstract} Solve the following problems. \end{abstract}
+    \begin{abstract} Solve the following problems.
+    \\
+    Due Date: Tuesday, October 13th, 11:59 pm
+    \end{abstract}
     \maketitle
 
-    \begin{exercise}
- Show that if $f,g : \mathbb{R} \to \mathbb{R}$ are of class $C^1$ and have compact support, then
- \[   \int_{\mathbb{R}} fg' = - \int_{\mathbb{R}} f'g .               \]
-     \end{exercise}    
+    % \begin{exercise}
+    %     Show that 
+    %     \begin{align*}
+    %         \begin{bmatrix}
+    %             I & A \\ A^T & 0
+    %         \end{bmatrix}\begin{bmatrix}
+    %             r \\x
+    %         \end{bmatrix} = \begin{bmatrix} b \\0 \end{bmatrix}
+    %     \end{align*}
+    % has a solution where $x$ minimizes $\|Ax-b\|_2$.
+    % \end{exercise}    
+
+\begin{exercise}
+    The Pythagorean theorem asserts that for a set of $n$ orthogonal vectors $\{x_i\}$
+    \begin{align*}
+        \left\|\sum\limits_{i=1}^n s_i\right\|_2^2 = \sum\limits_{i=1}^n \|x_i\|_2^2.
+    \end{align*}
+    \begin{enumerate}
+        \item Prove this in the case $n=2$ by an explicit computation of $\|x_1+x_2\|_2^2$.
+        \item Show that this computation also establishes the general case, by induction.
+    \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+    Let $A \in \mathbb{R}^{n\times n}$ be symmetric. An eigenvector of $A$ is a nonzero vector $x \in \mathbb{C}^n$ such that $Ax = \lambda x$ for some $\lambda \in \mathbb{C}$, where $\lambda$ is the corresponding eigenvalue.
+    \begin{enumerate}
+        \item Prove that all eigenvalues of $A$ are real.
+        \item Prove that if $x$ and $y$ are eigenvectors corresponding to distinct eigenvalues, then $x$ and $y$ are orthogonal.
+    \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+    Prove that
+    \begin{enumerate}
+        \item $\|x\|_\infty \leq \|x\|_2$
+        \item $\|x\|_2 \leq \sqrt{m}\|x\|_\infty$
+        \item $\|A\|_\infty\leq \sqrt{n}\|A\|_2$.
+    \end{enumerate}
+    Fact: Two norms $\|\cdot\|_a$ and $\|\cdot\|_b$ are called \textit{equivalent} if there exist constants $c, C$ such that $c\|x\|_a \leq \|x\|_b \leq C\|x\|_a$ for any $x \in \mathbb{C}^m$.  In finite dimensional spaces, all norms are equivalent.
+\end{exercise}
+
+\begin{exercise}
+    Prove or provide a counterexample that $\|uv^*\|_F = \|u\|_F\|v\|_F$, where $uv^*$ is the outer product.
+\end{exercise}
+
+\begin{exercise}
+    Plot the unit balls for the 
+    \begin{enumerate}
+        \item 2-norm
+        \item $\infty$-norm
+        \item 1-norm.
+    \end{enumerate}
+    Choose any full rank $2 \times 3$ matrix.  
+    \begin{enumerate}
+    \setcounter{enumi}{3}
+        \item Compute the SVD of the matrix.
+        \item Plot the vectors resulting from the product $U\Sigma$.
+        \item Overlay the plot from (e) with $A$ applied to the unit balls in the (i) 2-norm, (ii) $\infty$-norm, (iii) 1-norm.  How 
+        \item Explain why the vectors from $U\Sigma$ only define the axes of the ellipse produced by $A$ applied to the unit ball for the 2-norm.
+    \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+    Compute the SVD of the matrix
+    \begin{align*}
+        \begin{bmatrix}
+            1 & 1 & 0 \\ 0 & 0 & 2
+        \end{bmatrix}.
+    \end{align*}
+\end{exercise}
+
+\textbf{Graduate Students:} (bonus point for undergrads)
 
 
+\begin{exercise}
+    Show that if $A$ is real, then it has a real SVD, meaning $U \in \mathbb{R}^{m\times m}$, $V \in \mathbb{R}^{n\times n}$, and the singular values are real.
+\end{exercise}
 
+\begin{exercise}
+    Let $A \in \mathbb{R}^{m\times n}$ with SVD $A= U\Sigma V^T$.  Determine when the following quantities exist, and compute their SVDs:
+    \begin{itemize}
+\item $(A^TA)^{-1}$
+\item $(A^TA)^{-1}A^T$
+\item $A(A^TA)^{-1}$
+\item $A(A^TA)^{-1}A^T$
+\end{itemize}
+\end{exercise}
 
 
 \end{document}
