@@ -1,0 +1,225 @@
+\documentclass{ximera}
+
+\begin{document}
+
+    \title{Homework 3}
+    
+    \begin{abstract} Solve the following problems.
+    \\
+    Due Date: Wednesday, October 21st, 11:59 pm
+    \end{abstract}
+    \maketitle
+
+\begin{exercise}
+    If $P$ is an orthogonal projector, then $I-2P$ is unitary.  Prove this algebraically, and then give a geometric interpretation.    
+\end{exercise}
+
+\begin{exercise}
+    Consider the matrix 
+    \begin{align*}
+        A = \begin{bmatrix} 1 & 2 \\ 0 & 1 \\ 1 & 0 \end{bmatrix}.
+    \end{align*}
+    Determine the reduced and full $QR$ factorizations $A = \hat{Q}\hat{R}$ and $A = QR$.
+\end{exercise}
+
+\begin{exercise}
+    Rewrite each of the following expressions in a numerically more stable form for the indicated arguments. (Hint: trigonometric identities may come in useful.)
+    \begin{enumerate}
+        \item $\sqrt{x+1} -1$, $x\approx 0$
+        \item $\sin(x) - \sin(y)$, $x \approx y$.
+    \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+    Recall that the square root operation $\sqrt{}$ represents a single floating point operation, as do addition, subtraction, multiplication, and division.  Let $A$ be an $m \times n$ matrix.  Determine the number of floating point additions, subtractions, multiplications, and divisions involved in computing the reduced QR factorization $A = \hat{Q}\hat{R}$ in Algorithm 8.1 in your textbook.
+\end{exercise}
+
+\begin{exercise}
+    \begin{enumerate}
+        \item Implement Algorithm 7.1 and Algorithm 8.1 from you textbook in Matlab/Python. 
+        \item Consider a linearly independent list of $3$ vectors $a_1, a_2,$ and $a_3$ in $\mathbb{R}^4$.  Apply Algorithms 7.1 and 8.1 to the set of vectors which are the columns of the matrix
+            $A = \begin{bmatrix}    
+            1 & 1 & 1\\
+            10^{-k} & 0 &0 \\
+            0 & 10^{-k} & 0\\
+            0 & 0 & 10^{-k}
+            \end{bmatrix}
+            $
+            for $k = 5,6,7,8$.  
+            Briefly compute the floating point algorithm error by computing the largest magnitude entry of $I - Q^TQ$, where $Q$ is a matrix where the columns are the resulting set of orthogonal vectors coming from either one of the Gram-Schmidt algorithms; record these values in a table.  Briefly explain the observed behavior in terms of numerical stability.
+    \end{enumerate}
+\end{exercise}
+
+
+\textbf{Graduate Students:} (bonus points for undergrads)
+
+\begin{exercise}
+(Solve the following problem using Matlab or Python; as usual, submit your code to Canvas.)  
+
+Suppose a scientific instrument records noisy observations of a
+system whose underlying state lies near a two-dimensional subspace
+of $\mathbb{R}^3$. We are given the following observations:
+\[
+X =
+\begin{pmatrix}
+1.3 & -0.1 & 0.4\\
+0.7 & 0.766 & 0.2\\
+-0.3 & 0.766 & 0.4\\
+-0.9 & -0.1 & 0.2\\
+-0.3 & -0.966 & 0.4\\
+0.7 & -0.966 & 0.2
+\end{pmatrix}.
+\]
+
+% Each row represents an observation in three-dimensional space.
+% The first two coordinates approximately describe six equally
+% spaced points on a circle, while the third coordinate represents
+% a small perturbation.
+
+\begin{enumerate}[label=\arabic*.]
+    \item Compute the column mean vector $\bar{x}$ and form the
+    centered data matrix
+    \[
+    X_c = X - \mathbf{1}\bar{x}^{T}.
+    \]
+    then compute the SVD $ X_c = U\Sigma V^T$.
+
+    \item Construct the rank-two approximation (i.e., keep only the two leading singular values)
+    \[
+    X_2 = U_2\Sigma_2V_2^T.
+    \]
+    
+    
+   \textit{Fact: $X_2$ minimizes the Frobenius-norm reconstruction
+    error among all matrices of rank at most two.}
+
+    \item Calculate the residual error
+    \[
+    \|X_c-X_2\|_F
+    \]
+    and the proportion of centered data variance retained by
+    the rank-two approximation.
+
+    \item Project the centered observations onto the first two
+    right singular vectors:
+    \[
+    Y = X_cV_2.
+    \]
+    Interpret the rows of $Y$ as coordinates in a
+    two-dimensional principal-component space.
+
+    \item Explain why the Euclidean distances between projected
+    points equal the Euclidean distances between their rank-two
+    reconstructions in the original space.
+\end{enumerate}
+%     \item Compute the pairwise distance matrices for the original
+%     centered data and the projected data:
+%     \[
+%     D_{ij}=\|x_i-x_j\|_2,
+%     \qquad
+%     \widetilde{D}_{ij}=\|y_i-y_j\|_2.
+%     \]
+
+%     \item Establish a bound on the distortion of pairwise distances
+%     introduced by projection. In particular, show that
+%     \[
+%     \left|
+%     \|x_i-x_j\|_2-\|y_i-y_j\|_2
+%     \right|
+%     \leq \|r_i\|_2+\|r_j\|_2,
+%     \]
+%     where $r_i$ is the residual of observation $i$ after projection.
+% \end{enumerate}
+
+% \section*{Part C: Persistent Homology (25 points)}
+
+% Using the projected data $Y$, construct the Vietoris--Rips
+% filtration
+% \[
+% \operatorname{VR}_{\varepsilon}(Y).
+% \]
+
+% Two vertices are connected by an edge whenever their distance
+% is at most $\varepsilon$. Higher-dimensional simplices are
+% included whenever all their vertices are pairwise connected.
+
+% \begin{enumerate}[label=\arabic*.]
+%     \item Identify the scales at which the first edges appear
+%     and the six vertices become connected into a cycle.
+
+%     \item Determine when the one-dimensional homology class
+%     $H_1$ is born and when it dies as $\varepsilon$ increases.
+
+%     \item Calculate the corresponding Betti numbers $\beta_0$
+%     and $\beta_1$ at three representative scales:
+%     \begin{itemize}
+%         \item Before the nearest-neighbor edges appear.
+%         \item After the six-cycle forms but before it is filled
+%         by triangles.
+%         \item After the cycle is filled.
+%     \end{itemize}
+
+%     \item Sketch the $H_1$ persistence diagram and interpret
+%     the lifetime of the loop.
+
+%     \item Explain why a long-lived $H_1$ feature can be evidence
+%     of meaningful structure, but does not by itself prove that
+%     the underlying phenomenon is a true circle.
+% \end{enumerate}
+
+% \section*{Part D: The Effect of SVD Denoising on Persistence
+% (20 points)}
+
+% Suppose persistent homology is computed twice: once using the
+% original centered data $X_c$ and once using the rank-two
+% reconstruction $X_2$.
+
+% \begin{enumerate}[label=\arabic*.]
+%     \item Compare the two distance matrices and identify which
+%     geometric features are affected by the discarded singular
+%     component.
+
+%     \item Let
+%     \[
+%     \delta = \max_i\|r_i\|_2.
+%     \]
+%     Use the stability of persistent homology to explain why
+%     the persistence diagrams of the original and projected
+%     datasets should be close when $\delta$ is small.
+
+%     \item State a suitable bottleneck-distance stability bound
+%     in terms of $\delta$, and explain the assumptions under
+%     which it applies.
+
+%     \item Discuss a potential failure mode: construct or describe
+%     a situation in which truncating the SVD removes a
+%     geometrically important feature rather than merely
+%     removing noise.
+
+%     \item Explain why selecting the truncation rank solely from
+%     the percentage of variance retained may be inappropriate
+%     for topological analysis.
+% \end{enumerate}
+
+% \section*{Part E: Computational Implementation (20 points)}
+
+% Implement the analysis in Python using NumPy and a
+% persistent-homology package such as GUDHI or Ripser.
+
+% Your implementation must:
+% \begin{itemize}
+%     \item Center $X$ and compute its SVD.
+%     \item Construct the rank-two reconstruction and projected
+%     coordinates.
+%     \item Compare the pairwise distance matrices.
+%     \item Compute persistent homology in dimensions zero and one.
+%     \item Plot the $H_1$ persistence diagrams before and after
+%     projection.
+%     \item Report the singular values, reconstruction error,
+%     retained variance, and longest finite $H_1$ persistence
+%     interval.
+% \end{itemize}
+
+\end{exercise}
+
+\end{document}

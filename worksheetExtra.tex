@@ -1,0 +1,33 @@
+\documentclass{ximera}
+
+\begin{document}
+
+    \title{Homework - Exam Prep}
+    
+    \begin{abstract} Solve the following problems.
+    \\
+    Due Date: none
+    \end{abstract}
+    \maketitle
+
+Recall that the IEEE arithmetic model is given by 
+\begin{align*}
+    \text{fl}(x \; \odot\; y) = (x \; \odot\; y)(1+\delta)
+\end{align*}
+where $\delta$ represents the maximum relative representation error and $\odot = +, - , \times, /$.
+\begin{exercise}
+    Which of the following is true in IEEE arithmetic, assuming $a$ and $b$ are normalized floating point numbers (and that no exception occurs in the stated operations)?
+    \begin{enumerate}
+        \item $\text{fl}(a \;\odot\; b) = \text{fl}(b \;\odot\; a)$, $\odot = +, \times$
+        \item $\text{fl}(b - a) = - \text{fl}(a-b)$
+        \item $\text{fl}(a + a) = \text{fl}(2a)$
+        \item $\text{fl}(0.5 \times a) = \text{fl}(a/2)$
+        \item $\text{fl}((a+b)+c) = \text{fl}(a+(b+c))$
+        \item $a \leq \text{fl}((a+b)/2) \leq b$ if $a \leq b$
+    \end{enumerate}
+\end{exercise}
+
+
+
+
+\end{document}
