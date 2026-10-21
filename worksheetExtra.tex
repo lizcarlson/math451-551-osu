@@ -1,22 +1,23 @@
 \documentclass{ximera}
-
+\newcommand{\blank}{\underline{\hspace{2.5cm}}}
 \begin{document}
 
     \title{Homework - Exam Prep}
     
-    \begin{abstract} Solve the following problems.
+    \begin{abstract} Solve the following problems \textcolor{red}{BY HAND}.
     \\
     Due Date: none
     \end{abstract}
     \maketitle
 
-Recall that the IEEE arithmetic model is given by 
+\section{Floating Point Operation Problems}
+Assume IEEE arithmetic with round-to-nearest, ties-to-even, and that no overflow or underflow occurs, so that
 \begin{align*}
     \text{fl}(x \; \odot\; y) = (x \; \odot\; y)(1+\delta)
 \end{align*}
-where $\delta$ represents the maximum relative representation error and $\odot = +, - , \times, /$.
+where $|\delta| < \epsilon$, $\epsilon$ represents the maximum relative representation error and $\odot = +, - , \times, /$.
 \begin{exercise}
-    Which of the following is true in IEEE arithmetic, assuming $a$ and $b$ are normalized floating point numbers (and that no exception occurs in the stated operations)?
+    Show whether or not the following statements are true in IEEE arithmetic, assuming $a$ and $b$ are normalized floating point numbers (and that no exception occurs in the stated operations)?
     \begin{enumerate}
         \item $\text{fl}(a \;\odot\; b) = \text{fl}(b \;\odot\; a)$, $\odot = +, \times$
         \item $\text{fl}(b - a) = - \text{fl}(a-b)$
@@ -27,7 +28,414 @@ where $\delta$ represents the maximum relative representation error and $\odot =
     \end{enumerate}
 \end{exercise}
 
+\begin{exercise}
+    Let $L$ be a lower triangular matrix and solve $Lx = b$ by forward substitution. Show that, barring overflow or underflow, the computed solution $\hat{x}$ satisfies $(L+\delta L) \hat{x} = b$ (where the elements of $\delta L$ are denoted $\delta l_{ij}$ and the elements of $L$ are denoted $l_{ij}$), where $|\delta l_{ij}| \leq n\epsilon |l_{ij}|$, where $\epsilon$ is the machine precision (where in the upper bound we are neglecting all additional terms of order $\epsilon^p$, $p \geq 2$) . This means that forward substitution is backward stable. Argue that backward substitution for solving upper triangular systems satisfies the same bound.
+\end{exercise}
 
+\section{Vector and Matrix Norm Problems}
+\begin{exercise}
+    Verify that $\|xy^*\|_F = \|xy^*\|_2 = \|x\|_2\|y\|_2$ for any $x, y \in \mathbb{C}^n$.
+\end{exercise}
+
+\begin{exercise}
+    \begin{itemize} 
+    \item Prove that $\|Ax\| \leq \|A\|\cdot \|x\|$ for a vector norm and its corresponding operator norm.
+    \item Prove that $\|Ax\|_2 \leq \|A\|_F\|x\|_2$.
+    \item Prove that $\|AB\| \leq \|A\|\|B\|$.
+    \item If $A \in \mathbb{C}^{n\times n}$, then $n^{-1/2}\|A\|_2 \leq \|A\|_1 \leq n^{1/2}\|A\|_2$.
+    \end{itemize}
+\end{exercise}
+
+\begin{exercise}
+    Suppose $Ax = b$ and  $(A+\delta A)\hat{x} = b+ \delta b$.  Define $\delta x := \hat{x} -x$.  Show that 
+    \begin{align*}
+        \|\delta x\| \leq \|A^{-1}\|(\|\delta A\| \cdot \|\hat{x}\| + \|\delta b\|)
+    \end{align*}
+\end{exercise}
+
+\section{SVD, Projections, Gram-Schmidt, and QR}
+
+\begin{exercise}
+    Circle the correct answer.
+    \begin{enumerate}
+    \item What is the purpose of computing $A^T A$?
+
+    \begin{enumerate}[label=(\alph*)]
+        \item To find the eigenvectors of $A$ directly.
+        \item To obtain a symmetric matrix whose eigenvalues
+        give the squared singular values.
+        \item To make $A$ a square matrix.
+    \end{enumerate}
+
+    \vspace{0.5cm}
+
+    \item If an eigenvalue of $A^T A$ is $9$, what is the
+    corresponding singular value?
+
+    \begin{enumerate}[label=(\alph*)]
+        \item $3$
+        \item $9$
+        \item $81$
+    \end{enumerate}
+
+    \item Why must zero singular values be handled carefully
+    when computing $U$ using
+    $U = AV\Sigma^{-1}$?
+
+    \begin{enumerate}[label=(\alph*)]
+        \item Because the inverse of $\Sigma$ may not exist.
+        \item Because $V$ must be square.
+        \item Because $A$ must be symmetric.
+    \end{enumerate}
+
+    \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+    Suppose
+
+\[
+A =
+\begin{bmatrix}
+1 & 1\\
+0 & 1
+\end{bmatrix}.
+\]
+
+Answer the following questions. Show your work.
+
+\begin{enumerate}[label=\arabic*.]
+    \item Compute the Gram matrix $A^T A$.
+
+    \item Find the eigenvalues of $A^T A$.
+
+    \item Find the singular values of $A$.
+
+    \item Write down one valid choice of $U$, $\Sigma$, and $V$
+    satisfying
+    \[
+    A = U\Sigma V^T.
+    \]
+
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+    Let $P \in \mathbb{C}^{m\times m}$ be a nonzero projector.  Show that $\|P\|_2 \geq 1$, with equality if and only if $P$ is an orthogonal projector.
+\end{exercise}
+
+\begin{exercise}
+    Let $A$ be a matrix with the property that columns $1,3,5,7,...$ are orthogonal to columns $2,4,6,8,...$.  In a reduced $QR$ factorization $A = \hat{Q}\hat{R}$, what special structure does $\hat{R}$ possess?
+\end{exercise}
+
+\begin{exercise}
+    Choose any $3$ linearly independent but non-orthogonal vectors in $\mathbb{R}^3$, and orthogonalize them using Gram-Schmidt.
+\end{exercise}
+
+\section{Pseudocode}
+
+\begin{exercise}
+
+\begin{enumerate}
+    \item Assume $A \in \mathbb{R}^{m\times n}$ has full column rank.  Fill in the blanks using the words in the word bank below.
+Some words may be used more than once, or not at all.
+
+\subsection*{Word Bank}
+
+\begin{center}
+\fbox{
+\begin{minipage}{0.85\textwidth}
+\centering
+eigenvalues \quad
+eigenvectors \quad
+transpose \quad
+descending \quad
+square root \quad
+orthonormal \quad
+diagonal \quad
+reconstruct
+\end{minipage}
+}
+\end{center}
+
+\subsection*{Pseudocode}
+
+\begin{lstlisting}
+Algorithm SVD(A):
+
+    # Step 1: Compute the Gram matrix
+    G = A ________ * A
+
+    # Step 2: Compute eigenvalues and eigenvectors
+    eigenvalues, eigenvectors = eig(G)
+
+    # Step 3: Sort eigenvalues and corresponding
+    #         eigenvectors in ________ order
+    Sort eigenvalues and corresponding eigenvectors
+
+    # Step 4: Compute singular values
+    singular_values = ________(eigenvalues)
+
+    # Step 5: Construct V
+    V = matrix whose columns are the normalized
+        ________ of G
+
+    # Step 6: Construct Sigma
+    Sigma = ________ matrix containing the
+            singular values on its diagonal
+
+    # Step 7: Construct U
+    U = A * V * inverse(Sigma)
+
+    # Step 8: Return the decomposition
+    Return U, Sigma, V
+\end{lstlisting}
+
+\item Explain, in words, how you would change the algorithm if $A$ did not have full column rank.
+\end{enumerate}
+\end{exercise}
+\begin{exercise}
+
+Let $A \in \mathbb{R}^{m \times n}$, where $m \geq n$,
+have linearly independent columns. The goal is to compute the
+reduced QR decomposition
+\[
+A = QR,
+\]
+where $Q \in \mathbb{R}^{m \times n}$ has orthonormal columns
+and $R \in \mathbb{R}^{n \times n}$ is upper triangular.
+
+\begin{enumerate}
+    \item Fill in each blank to complete the Modified Gram--Schmidt
+algorithm. Assume that \texttt{A[:,k]} denotes the $k$-th
+column of $A$, \texttt{dot(x,y)} computes an inner product,
+and \texttt{norm(x,2)} computes the Euclidean norm.
+
+\begin{lstlisting}
+Algorithm ModifiedGramSchmidt(A):
+    Input: A in R^(m x n), with linearly independent columns
+    Output: Q in R^(m x n), R in R^(n x n)
+
+    V <- __________ (1) __________
+    Q <- zero matrix of size m x n
+    R <- zero matrix of size n x n
+
+    for k = 1, 2, ..., n:
+
+        R[k,k] <- __________ (2) __________
+        Q[:,k] <- __________ (3) __________
+
+        for j = k+1, k+2, ..., n:
+
+            R[k,j] <- __________ (4) __________
+            V[:,j] <- __________ (5) __________
+
+    return Q, R
+\end{lstlisting}
+
+\item Answer the following questions.
+\begin{enumerate}[label=\arabic*.]
+    \item Why is $R_{kk}$ computed using a vector norm?
+    \item What is the purpose of updating $V_{:,j}$ inside
+    the inner loop?
+    \item Why is $R$ upper triangular?
+\end{enumerate}
+
+\item Give the leading-order arithmetic complexity of the algorithm
+in terms of $m$ and $n$, assuming $m \geq n$.
+
+\end{enumerate}
+\newpage
+
+% \section*{Instructor Answer Key}
+% \textit{Remove this section before distributing the exam.}
+
+% \subsection*{(a) Fill-in-the-blank answers}
+
+% \begin{enumerate}[label=\arabic*.]
+%     \item $A$
+%     \item $\|V_{:,k}\|_2$
+%     \item $V_{:,k}/R_{kk}$
+%     \item $\operatorname{dot}(Q_{:,k}, V_{:,j})$
+%     \item $V_{:,j} - R_{kj}Q_{:,k}$
+% \end{enumerate}
+
+% The completed pseudocode is:
+
+% \begin{lstlisting}
+% Algorithm ModifiedGramSchmidt(A):
+%     V <- A
+%     Q <- zero matrix of size m x n
+%     R <- zero matrix of size n x n
+
+%     for k = 1, 2, ..., n:
+%         R[k,k] <- norm(V[:,k], 2)
+%         Q[:,k] <- V[:,k] / R[k,k]
+
+%         for j = k+1, k+2, ..., n:
+%             R[k,j] <- dot(Q[:,k], V[:,j])
+%             V[:,j] <- V[:,j] - R[k,j] * Q[:,k]
+
+%     return Q, R
+% \end{lstlisting}
+
+% \subsection*{(b) Expected answers}
+
+% \begin{enumerate}[label=\arabic*.]
+%     \item The norm gives the length of the current residual
+%     column, allowing it to be normalized to unit length.
+%     \item The update removes the component of $V_{:,j}$ in the
+%     direction of $Q_{:,k}$, making the remaining columns
+%     orthogonal to the current column of $Q$.
+%     \item $R$ is upper triangular because only entries on and
+%     above the diagonal are computed; entries below the diagonal
+%     remain zero.
+% \end{enumerate}
+
+% In exact arithmetic, the algorithm produces $A=QR$ with
+% $Q^TQ=I_n$.
+
+% \subsection*{(c) Expected answer}
+
+% The leading-order arithmetic complexity is
+% \[
+% \boxed{\mathcal{O}(mn^2)}.
+% \]
+
+\end{exercise}
+
+\newpage
+
+% \section*{Answer Key}
+
+% \subsection*{Part 1: Pseudocode}
+
+% The suggested answers for the blanks are:
+
+% \begin{enumerate}
+%     \item \texttt{transpose}
+%     \item \texttt{descending}
+%     \item \texttt{square root}
+%     \item \texttt{eigenvectors}
+%     \item \texttt{diagonal}
+% \end{enumerate}
+
+% The Gram matrix is $G = A^T A$. Its eigenvalues are
+% nonnegative, and the singular values of $A$ are their
+% nonnegative square roots.
+
+% The right singular vectors are the normalized eigenvectors
+% of $A^T A$.
+
+% For a full SVD, $U$ and $V$ are orthogonal matrices, and
+% $\Sigma$ is an $m \times n$ diagonal-shaped matrix. If
+% $\Sigma$ is square and invertible, then
+% $U = AV\Sigma^{-1}$ can be used. Zero singular values require
+% special handling because $\Sigma^{-1}$ does not exist.
+
+% \subsection*{Part 2: Multiple-Choice Answers}
+
+% \begin{enumerate}[label=\arabic*.]
+%     \item (b) The eigenvalues of $A^T A$ are the squared
+%     singular values of $A$.
+%     \item (a) The singular value is $\sqrt{9} = 3$.
+%     \item (c) The columns of $V$ are the right singular vectors.
+%     \item (a) A zero diagonal entry makes $\Sigma$ singular.
+% \end{enumerate}
+
+% \subsection*{Part 3: Challenge Solution}
+
+% Given
+
+% \[
+% A =
+% \begin{bmatrix}
+% 3 & 0\\
+% 0 & 2
+% \end{bmatrix},
+% \]
+
+% we have
+
+% \[
+% A^T A =
+% \begin{bmatrix}
+% 9 & 0\\
+% 0 & 4
+% \end{bmatrix}.
+% \]
+
+% The eigenvalues of $A^T A$ are
+
+% \[
+% \lambda_1 = 9,
+% \qquad
+% \lambda_2 = 4.
+% \]
+
+% Therefore, the singular values are
+
+% \[
+% \sigma_1 = \sqrt{9} = 3,
+% \qquad
+% \sigma_2 = \sqrt{4} = 2.
+% \]
+
+% One valid decomposition is
+
+% \[
+% U =
+% \begin{bmatrix}
+% 1 & 0\\
+% 0 & 1
+% \end{bmatrix},
+% \qquad
+% \Sigma =
+% \begin{bmatrix}
+% 3 & 0\\
+% 0 & 2
+% \end{bmatrix},
+% \qquad
+% V =
+% \begin{bmatrix}
+% 1 & 0\\
+% 0 & 1
+% \end{bmatrix}.
+% \]
+
+% Indeed,
+
+% \[
+% U\Sigma V^T
+% =
+% \begin{bmatrix}
+% 1 & 0\\
+% 0 & 1
+% \end{bmatrix}
+% \begin{bmatrix}
+% 3 & 0\\
+% 0 & 2
+% \end{bmatrix}
+% \begin{bmatrix}
+% 1 & 0\\
+% 0 & 1
+% \end{bmatrix}
+% =
+% \begin{bmatrix}
+% 3 & 0\\
+% 0 & 2
+% \end{bmatrix}
+% = A.
+% \]
+
+% \bigskip
+
+% \noindent
+% \textit{Instructor note:} This exercise illustrates the
+% mathematical idea behind SVD using $A^T A$. In practical
+% numerical computation, algorithms that avoid explicitly
+% forming $A^T A$ are generally preferred because forming
+% the Gram matrix can worsen numerical accuracy.
 
 
 \end{document}
