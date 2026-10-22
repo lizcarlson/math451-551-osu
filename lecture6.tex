@@ -15,15 +15,79 @@
 
 In addition, we make a brief remark on numerical stability.  The subtraction of two functions can be numerically unstable because the result may be much smaller than either of the two quantities being subtracted. In floating-point arithmetic, each quantity is computed with a small rounding error, and subtraction can magnify the relative effect of those errors.  This phenomenon is called catastrophic cancellation (or subtractive cancellation). Such errors can arise in many algorithms, and is a major part of the motivation for the reformulation of the Gram-Schmidt algorithm.
 
-For example, consider the expression 
-$1 - \cos(x) $ for $x \approx 0$. A reformulation to prevent such catastrophic cancellation is to use a trigonometric identity:
-\begin{align*}
-    1 - \cos(x) =2 \sin^2(x/2).
-\end{align*}
+Catastrophic cancellation occurs when two nearly equal numbers
+are subtracted, causing significant digits to cancel and potentially
+leading to a large \textbf{\textit{relative}} error in the result.
 
-Notice how here we are avoiding subtraction of numbers close to one another, and instead are focused on evaluation of a function and scaling a number already near $0$.  Specifically, you are performing operations on numbers such that operations on said numbers remain in the same region of numbers in the output as the input.
+Consider the expression
+\[
+f(x) = 1 - \cos(x),
+\]
+where \(x\) is near \(0\). Since \(\cos(x) \approx 1\) for small
+\(x\), this expression involves subtracting two nearly equal numbers.
 
-Modified Gram-Schmidt works in the same way: instead of normalizing vectors *after* a series of subtractions, it subtracts numbers from vectors that are already normalized.  Thus, 
+Using the Taylor expansion of cosine,
+\[
+\cos(x)
+= 1 - \frac{x^2}{2} + \frac{x^4}{24} - \cdots,
+\]
+we obtain
+\[
+1 - \cos(x)
+= \frac{x^2}{2} - \frac{x^4}{24} + \cdots.
+\]
+
+For small \(x\), the true result is approximately \(x^2/2\),
+which is much smaller than either \(1\) or \(\cos(x)\).
+
+In floating-point arithmetic, the computed value of \(\cos(x)\)
+contains rounding error. When it is subtracted from \(1\), the
+leading digits cancel, and the rounding error can become large
+relative to the small difference being calculated. If \(x\) is
+sufficiently small, \(\cos(x)\) may even round to exactly \(1\),
+causing the computed result to be zero despite the true result
+being positive.
+
+A numerically more stable alternative follows from the
+half-angle identity:
+\[
+\boxed{
+1 - \cos(x) = 2\sin^2\left(\frac{x}{2}\right)
+}
+\]
+This expression avoids subtracting two nearly equal numbers.  In general, we can simply rewrite potential catastrophic cancellations into alternative forms algebraically, then implement these algorithms instead.  For example, the rewriting of $1-\cos(x)$ to $2 \sin^2(x/2)$ above no longer contains a difference of two near-zero quantities.
+
+Example: Gram-Schmidt
+
+The classical Gram--Schmidt algorithm constructs an orthogonal
+basis by subtracting projections onto previously computed basis
+vectors. For example, the second orthogonal vector is computed as
+\[
+v_2 = u_2 - (q_1^T u_2)q_1,
+\]
+where \(q_1\) is a previously computed unit vector and \(u_2\)
+is the next input vector.
+
+If \(u_2\) is nearly parallel to \(q_1\), then its projection
+\((q_1^T u_2)q_1\) is nearly equal to \(u_2\). Their subtraction
+produces a small residual vector, leading to catastrophic cancellation.
+Rounding errors in the two nearly equal vectors can become large relative to the residual, causing the computed vectors to lose
+orthogonality.
+
+The modified Gram--Schmidt (MGS) algorithm changes the order of
+the computations. Instead of computing all projections using
+the original vector and subtracting them together, it removes each projection sequentially from the vector being orthogonalized.  This approach generally reduces the accumulation of rounding errors and preserves orthogonality better than classical Gram--Schmidt in floating-point arithmetic.
+
+
+% For example, consider the expression 
+% $1 - \cos(x) $ for $x \approx 0$. A reformulation to prevent such catastrophic cancellation is to use a trigonometric identity:
+% \begin{align*}
+%     1 - \cos(x) =2 \sin^2(x/2).
+% \end{align*}
+
+% Notice how here we are avoiding subtraction of numbers close to one another, and instead are focused on evaluation of a function and scaling a number already near $0$.  Specifically, you are performing operations on numbers such that operations on said numbers remain in the same region of numbers in the output as the input.
+
+% Modified Gram-Schmidt works in the same way: instead of normalizing vectors *after* a series of subtractions, it subtracts numbers from vectors that are already normalized.
 \end{document}
 
 
