@@ -1,0 +1,105 @@
+\documentclass{ximera}
+
+\begin{document}
+
+    \title{Homework 4}
+    
+    \begin{abstract} Solve the following problems.
+    \\
+    Due Date: Wednesday, October 28th, 11:59 pm
+    \end{abstract}
+    \maketitle
+
+\begin{exercise}
+[10.1] Determine the eigenvalues, determinant, and singular values
+of a Householder reflector. Give both a geometric argument and
+an algebraic proof for the eigenvalues.
+\end{exercise}
+
+\begin{exercise}
+[10.3] Let
+\[
+Z =
+\begin{bmatrix}
+1 & 2 & 3 \\
+4 & 5 & 6 \\
+7 & 8 & 7 \\
+4 & 2 & 3 \\
+4 & 2 & 2
+\end{bmatrix}.
+\]
+Compute the reduced QR factorization of \(Z\) using modified
+Gram--Schmidt, Householder reflections, and MATLAB's or Python's built-in
+QR routine. Compare the results.
+\end{exercise}
+
+\begin{exercise}
+[10.4] Consider the orthogonal matrices
+\[
+F =
+\begin{bmatrix}
+-c & s \\
+s & c
+\end{bmatrix},
+\qquad
+J =
+\begin{bmatrix}
+c & s \\
+-s & c
+\end{bmatrix},
+\]
+where \(s=\sin\theta\) and \(c=\cos\theta\).  Note that $F$ represents a special case of a Householder reflection in dimension 2, and $J$ is a (Givens) rotation matrix.
+
+\begin{enumerate}
+    \item Describe the geometric effects of left multiplication
+    by \(F\) and \(J\) on the plane $\mathbb{R}^2$.
+    \item \textbf{(GRAD STUDENTS ONLY)} Describe a QR factorization algorithm based on Givens
+    rotations.
+    \item \textbf{(GRAD STUDENTS ONLY)} Show that the algorithm requires six flops per entry
+    operated on, compared with four for Householder
+    triangularization.
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+[11.1] Suppose \(A\in\mathbb{C}^{m\times n}\) has the block form
+\[
+A =
+\begin{bmatrix}
+A_1 \\
+A_2
+\end{bmatrix},
+\]
+where \(A_1\in\mathbb{C}^{n\times n}\) is nonsingular and
+\(A_2\in\mathbb{C}^{(m-n)\times n}\) is arbitrary.
+Prove that
+\[
+\|A^+\|_2 \leq \|A_1^{-1}\|_2.
+\]
+\end{exercise}
+
+\begin{exercise}
+[11.3] Let \(m=50\) and \(n=12\). Construct a grid \(t\) of
+\(m\) equally spaced points on \([0,1]\), and form the
+Vandermonde matrix \(A\) for polynomial fitting of degree
+\(n-1\). Let \(b=\cos(4t)\).
+
+Compute the least-squares coefficient vector \(x\) to
+sixteen-digit precision using:
+\begin{enumerate}
+    \item The normal equations.
+    \item Modified Gram--Schmidt QR factorization.
+    \item Householder QR factorization.
+    \item MATLAB's built-in \texttt{qr}.
+    \item MATLAB's backslash operator.
+    \item The singular value decomposition (SVD).
+\end{enumerate}
+
+\textbf{GRAD STUDENTS ONLY} Compare the coefficients and identify digits affected by
+rounding error. Comment on the stability of the normal equations.
+\end{exercise}
+
+
+
+
+\end{document}
