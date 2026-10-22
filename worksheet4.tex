@@ -87,11 +87,11 @@ Vandermonde matrix \(A\) for polynomial fitting of degree
 Compute the least-squares coefficient vector \(x\) to
 sixteen-digit precision using:
 \begin{enumerate}
-    \item The normal equations.
+    \item The normal equations using Matlab's \verb|\ | command (or Python's \verb|scipy.linalg.lstsq| command).
     \item Modified Gram--Schmidt QR factorization.
     \item Householder QR factorization.
-    \item MATLAB's built-in \texttt{qr}.
-    \item MATLAB's backslash operator.
+    \item MATLAB's built-in \texttt{qr} (or Python's equivalent, \verb|scipy.linalg.qr| with option \verb|pivotting=true|).
+    \item MATLAB's backslash operator (or Python's equivalent, \verb|scipy.linalg.lstsq|).
     \item The singular value decomposition (SVD).
 \end{enumerate}
 

@@ -1,0 +1,30 @@
+\documentclass{ximera}
+\begin{document}
+
+    \title{Lectures 6--8}
+    
+    \begin{abstract} 
+        - Matrix norms \\
+        - SVD \\
+        - Projectors \\
+        - QR decompositions
+    \end{abstract}
+    \maketitle
+
+\textit{These lectures correspond exactly to Lectures 7-8, 11 in your textbook.}
+
+In addition, we make a brief remark on numerical stability.  The subtraction of two functions can be numerically unstable because the result may be much smaller than either of the two quantities being subtracted. In floating-point arithmetic, each quantity is computed with a small rounding error, and subtraction can magnify the relative effect of those errors.  This phenomenon is called catastrophic cancellation (or subtractive cancellation). Such errors can arise in many algorithms, and is a major part of the motivation for the reformulation of the Gram-Schmidt algorithm.
+
+For example, consider the expression 
+$1 - \cos(x) $ for $x \approx 0$. A reformulation to prevent such catastrophic cancellation is to use a trigonometric identity:
+\begin{align*}
+    1 - \cos(x) =2 \sin^2(x/2).
+\end{align*}
+
+Notice how here we are avoiding subtraction of numbers close to one another, and instead are focused on evaluation of a function and scaling a number already near $0$.  Specifically, you are performing operations on numbers such that operations on said numbers remain in the same region of numbers in the output as the input.
+
+Modified Gram-Schmidt works in the same way: instead of normalizing vectors *after* a series of subtractions, it subtracts numbers from vectors that are already normalized.  Thus, 
+\end{document}
+
+
+
