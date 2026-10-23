@@ -1,0 +1,66 @@
+\documentclass{ximera}
+
+\begin{document}
+
+    \title{In-Class Assignment 3}
+    
+    \begin{abstract} Solve the following problem.
+    \end{abstract}
+    \maketitle
+
+\begin{exercise}
+    Consider the Q matrix from a QR decomposition
+    \begin{align*}
+        Q = \begin{bmatrix}
+            \frac12 & \frac{\sqrt2}2 & \frac12 
+            \\[0.7em] 
+            \frac12 & -\frac{\sqrt2}2 & \frac12\\[0.7em]
+            \frac{\sqrt2}2 & 0 & -\frac{\sqrt{2}}2
+        \end{bmatrix},
+    \end{align*}
+    and suppose the reduced QR decomposition yields a matrix $\hat{Q}$
+    \begin{align*}
+        \hat{Q} = \begin{bmatrix}
+            \frac12 & \frac{\sqrt2}2 
+            \\[0.7em] 
+            \frac12 & -\frac{\sqrt2}2 \\[0.7em]
+            \frac{\sqrt2}2 & 0
+        \end{bmatrix}.
+    \end{align*}
+    Give a geometric explanation as to why $Q$ is unitary and $\hat{Q}^*\hat{Q} = I$, but  $\hat{Q}\hat{Q}^* \neq I$.
+\end{exercise}
+
+\begin{exercise}
+    Choose the correct descriptions of the classical vs modified Gram-Schmidt algorithms.  Let $\{a_1, ..., a_n\}$ be a collection of vectors in $\mathbb{C}^m$.
+    \begin{enumerate}
+         \item The classical Gram--Schmidt algorithm constructs
+        $q_{j+1}$ by orthogonalizing $a_{j+1}$ against the subspace
+        spanned by $\{q_1,\ldots,q_j\}$ and then normalizing.
+        \item The modified Gram--Schmidt algorithm constructs
+        $q_{j+1}$ by orthogonalizing $a_{j+1}$ against the subspace
+        spanned by $\{q_1,\ldots,q_j\}$ and then normalizing.
+        \item In classical Gram--Schmidt, the subspace spanned by
+        $\{a_{j+1},\ldots,a_n\}$ is orthogonalized against $q_j$
+        by subtracting the projections of the original vectors
+        onto $q_j$.
+        \item In modified Gram--Schmidt, the subspace spanned by
+        $\{a_{j+1},\ldots,a_n\}$ is orthogonalized against $q_j$
+        by subtracting the projections of the current, updated
+        vectors onto $q_j$.
+        % \item The classical Gram-Schmidt algorithm orthonormalizes the vector $a_{j+1}$ to the subspace spanned by $\{a_1, ..., a_j\}$.  
+        % \item The modified Gram-Schmidt algorithm orthonormalizes the vector $a_{j+1}$ to the subspace spanned by $\{a_1, ..., a_j\}$.
+        % \item The classical Gram-Schmidt algorithm orthogonalizes the subspace spanned by $\{a_{j+1},..., a_n\}$ to the previously normalized vector $q_j.$
+        % \item The modified Gram-Schmidt algorithm orthogonalizes the subspace spanned by $\{a_{j+1},..., a_n\}$ to the previously normalized vector $q_j$.
+    \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+     Create the matrix for a projector $P_v$ such that a vector $y$ is projected onto the vector $v$.
+\end{exercise}
+
+\begin{exercise}
+Recall that in your homework, you explained that $I-2P$ was a reflector, where $P$ was an orthogonal projector.  Let $a_1\in \mathbb{R}^2$ be a vector not equal to a scaling of $\vec{e}_1$.  Find a vector $v$ such that $(I-2P_v)(a_1) = \|a_1\|_2\vec{e}_1$. 
+%What happens if you take $P_1$ to be the orthogonal projector onto the first column of $A$?  What happens if you then take $P_2$ to be the orthogonal projector onto the second column of $(I-2P_1)A$?
+\end{exercise}
+
+\end{document}
