@@ -1,0 +1,35 @@
+\documentclass{ximera}
+
+\begin{document}
+
+    \title{In-Class Assignment 4}
+    
+    \begin{abstract} Solve the following problem.
+    \end{abstract}
+    \maketitle
+
+
+\begin{exercise} (\textit{Optional to finish from last time})
+     Create the matrix for a projector $P_v$ such that a vector $y$ is projected onto the vector $v$.
+\end{exercise}
+
+\begin{exercise}
+Recall that in your homework, you explained that $I-2P$ was a reflector, where $P$ was an orthogonal projector.  Let $a_1\in \mathbb{R}^2$ be a vector not equal to a scaling of $\vec{e}_1$.  Find a vector $v_1$ such that $(I-2P_{v_1})(a_1) = \|a_1\|_2\vec{e}_1$. 
+%What happens if you take $P_1$ to be the orthogonal projector onto the first column of $A$?  What happens if you then take $P_2$ to be the orthogonal projector onto the second column of $(I-2P_1)A$?
+\end{exercise}
+
+\begin{exercise}
+    Now, consider a matrix $A$ that is $m \times n$.  What happens when you compute $(I-2P_{v_1})A$, where in this case $a_1$ is the first column of $A$?
+\end{exercise}
+
+\begin{exercise}
+    Consider the matrix $Q_1A$, where $Q_1 = I-2P_{v_1}$ from the previous exercise.  Write it (and if necessary scale it) in a block diagonal structure, such that the first column is the basis vector $\vec{e}_1$.
+\end{exercise}
+
+\begin{exercise}
+    Formulate an induction hypothesis using the block diagonal structure above to get a $QR$ decomposition of $A$.
+\end{exercise}
+
+\textbf{Bonus:}  Is the choice of reflection unique?  Why or why not?  Hypothesize a ``best" choice from a numerical stability standpoint.
+
+\end{document}
