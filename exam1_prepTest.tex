@@ -1,0 +1,87 @@
+\documentclass{ximera}
+
+\begin{document}
+
+    \title{Exam 1 Prep Sheet}
+    
+    \begin{abstract} Solve the following problems.
+    \\
+    \end{abstract}
+    \maketitle
+
+
+\begin{exercise}
+    Consider the matrix
+    \begin{align*}
+        A = \begin{bmatrix}
+            1 & 2 \\3 &2
+        \end{bmatrix}.
+    \end{align*}
+  Is $A$ diagonalizable?  If so, find the column of eigenvectors $P$ and the diagonal matrix of eigenvalues $D$.  Do not compute $P^{-1}$.
+        % \item Orthogonalize the columns of $A$ using Gram-Schmidt.
+\end{exercise}
+
+\begin{exercise}
+    (Circle the correct answer.) The reduced SVD is equal to the full SVD when
+    \begin{enumerate}
+        \item $A$ is square
+        \item $A$ is square and full rank
+        \item $A$ is $m\times n$, $m \neq n$ and full rank.
+        \item $A$ is $m \times n$, $m \neq n$.
+    \end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Consider the matrix 
+\begin{align*}
+    B = \begin{bmatrix}
+            1 & 1 \\1 &1 \\1 &-1
+        \end{bmatrix}.
+\end{align*}
+\begin{enumerate}
+    \item Compute the \underline{reduced} SVD for $B$.
+    \item Describe the process by which you use a \underline{reduced} SVD to compute a \underline{full} SVD?
+\end{enumerate}
+\end{exercise}
+
+\newpage
+
+\begin{exercise}
+    Assume that $v_1,\ldots,v_n$ are linearly independent.
+    Give a brief geometric explanation of the classical
+    Gram--Schmidt algorithm. Then fill in the blanks so that
+    the following pseudocode returns an orthonormal set of vectors.
+\begin{verbatim}
+    GramSchmidt(v(1), v(2), ..., v(n)):
+
+        u(1) = ________
+
+        for k = 2 to n:
+
+            w = v(k)
+
+            for j = 1 to k-1:
+
+                w = w - ( __________ / __________ ) * u(j)
+
+            end for
+
+            u(k) = ________
+
+        end for
+
+        return _________
+\end{verbatim}
+\end{exercise}
+
+
+\begin{exercise}
+    Count the number of flops in the algorithm you completed in the previous exercise for vectors $v_1, ..., v_3$ that are each of dimension $3\times 1$.
+\end{exercise}
+
+\begin{exercise}
+    Write $\sqrt{x^2+1} -x$ for $x >> 1$  in such a way that avoids catastrophic cancellation.
+\end{exercise}
+
+
+\end{document}
