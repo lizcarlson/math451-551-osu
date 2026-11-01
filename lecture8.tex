@@ -1,0 +1,55 @@
+\documentclass{ximera}
+\begin{document}
+
+    \title{Lecture 15}
+    
+    \begin{abstract} 
+        - Householder transformation \\
+        - Exam Prep Sheet
+    \end{abstract}
+    \maketitle
+
+After working through in-class assignments 3 and 4, we get to summarize the work we have done to construct the Householder transformation.  Our goal in this assignment is to find a $v$ such that we get a reflection across some axis that sends $a_1$ to $\|a_1\|e_1$.  The reflection is given across the axis perpendicular to the difference vector $v= a_1- \|a_1\| e_1$ with its tip starting at $a_1$; this can be figured geometrically drawing a picture.  From an algebraic perspective, consider that, for some $v$ yet to be determined
+\begin{align*}
+    (I-2P_v)a_1 &= \|a_1\|e_1 \\
+    a_1 - \|a_1\|e_1 &= 2P_v a_1
+\end{align*}
+By properties of a projection, $v$ has to be parallel to $a_1 - \|a_1\|e_1$, and since the size of $v$ doesn't matter because the matrix $P_v$ will provide the necessary normalization, we can simply take $v = a_1 - \|a_1\|e_1$.
+
+Moreover, for the induction proof part of the methodology, let's take $a_1$ to be the first column of some matrix 
+\begin{align*}
+    A = \left[\begin{array}{c|c|c|c} 
+    a_1 & a_2 & \cdots & a_n
+    \end{array}\right]
+\end{align*}
+Then, we can choose $v = a_1 - \|a_1\|e_1$, and define $Q_1^* = I- 2P_v$, yielding
+\begin{align*}
+        Q_1^*A = \left[\begin{array}{c|c|c|c} 
+        \|a_1\|e_1 & a_2 & \cdots & a_n
+        \end{array}\right],
+\end{align*}
+which I can write in the block-matrix formulation
+\begin{align*}
+    Q_1^*A = \left[ \begin{array}{c|c} 
+    \|a_1\| & \times \\\hline
+    0 & F_1
+    \end{array}\right].
+\end{align*}
+We are aiming for an upper triangular matrix output, so, we can find a vector $v_2$ such that $(I-2P_{v_2})F$  takes the first column $f_1$ of $F_1$ and changes it to $\|f_1\|e_1$.  Setting $Q_2^* = \left[ \begin{array}{c|c} 
+    1 & 0 \\\hline
+    0 & I-2P_{v_2}
+    \end{array}\right]$
+then 
+\begin{align*}
+    Q_2^*Q_1^*A = \left[ \begin{array}{c|c|c} 
+    \|a_1\| & \times & \times \\\hline
+    0 & \|f_1\| & \times \\ \hline
+    0 & 0 & F_2
+    \end{array}\right].
+\end{align*}
+Continuing inductively, we can conclude
+$Q_n^* \cdots Q_2^*Q_1^*A = R$, where $R$ is upper triangular.  As each of these Q's is unitary, this is a proper $QR$ decomposition, where $Q = Q_1Q_2 \cdots Q_n$.
+\end{document}
+
+
+
