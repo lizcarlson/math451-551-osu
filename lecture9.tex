@@ -1,0 +1,114 @@
+\documentclass{ximera}
+\begin{document}
+
+    \title{Lecture 16}
+    
+    \begin{abstract} 
+        - Absolute, relative, and matrix condition numbers
+    \end{abstract}
+    \maketitle
+
+\textit{This lecture is an amalgamation of Lecture 12 in your textbook, and Chapter 2.2 in Demmel.}
+
+    \begin{definition}
+    Let $\delta x$ denote a small perturbation of some input $x$, and write $\delta f := f(x+\delta x) - f(x)$.  
+    The \textit{absolute condition number} $\hat{\kappa} = \hat{\kappa}(x)$ of the problem $f$ at $x$ is defined as 
+    \begin{align*}
+        \hat{\kappa} = \lim\limits_{\delta \to 0} \sup\limits_{\|\delta x\| \leq \delta} \frac{\|\delta f\|}{\|\delta x\|}.
+    \end{align*}
+    \end{definition}
+
+    
+If $f$ is differentiable, we can evaluate the condition number by means of the derivative.  Let $J(x)$ be the matrix whose $i,j$ entry is the partial derivative $\partial f_i/\partial x_j$ evaluated at $x$, known as the Jacobian of $f$ at $x$.  The definition fo the derivative at first order is $\delta f \approx J(x) \delta x$, with equality in the limit $\|\delta x\| \to 0$.  The absolute condition number becomes $\hat{\kappa}(x) = \|J(x)\|$, where $\|J(x)\|$ represents the norm of $J(x)$ induced by the norms on $X$ (the space where $x$ lies) and $Y$ (the space where $f$ lies).
+
+We also have a notion of relative condition number.
+\begin{definition}
+    Given the same assumptions as in the previous definition, the \textit{relative condition number} $\kappa = \kappa(x)$ is defined by 
+    \begin{align*}
+        \kappa = \lim\limits_{\delta \to 0} \sup\limits_{\|\delta x\| \leq \delta} \left( \frac{\|\delta f\|}{ \|f(x)\|}\Big/\frac{\|\delta x\|}{\|x\|}
+        \right).
+    \end{align*}
+\end{definition}
+
+Let's go back to something we mentioned quite a few lectures ago, where we want to find a best solution to $Ax = b$, but we have trouble on our machine accurately representing every single number in the matrix $A$ and the vector $b$, as well as possibly the solution $x$.  We want to bound the norm of the error $\delta x:= \hat{x} - x$.  Let's do a simple subtraction:
+
+\begin{align*}
+    (A+\delta A)(x+\delta x) &= b+ \delta b \\
+    - \phantom{yoooomannnnn} Ax&=b\\
+    \hline
+    \delta Ax + (A+\delta A)\delta x &= \delta b
+\end{align*}
+Rearranging yields
+\begin{align}
+    \delta x = A^{-1}(-\delta A\hat{x} + \delta b).
+\end{align}
+
+Taking norms, we see that 
+\begin{align}
+    \|\delta x\| = \|A^{-1}(-\delta A\hat{x} + \delta b)\|.
+\end{align}
+
+Using triangle inequality (T.I.) and Cauchy-Schwarz (C.S.), now that we have proven these things to ourselves,
+\begin{align*}
+    \|\delta x\| &\stackrel{C.S.}\leq \|A^{-1}\|\|(-\delta A\hat{x} + \delta b)\| 
+    \\
+    &\stackrel{T.I.}\leq \|A^{-1}\|(\|-\delta A\hat{x}\| + \|\delta b\| )
+    \\
+    &\stackrel{C.S.}\leq \|A^{-1}\|(\|\delta A\|\|\hat{x}\| + \|\delta b\| ).
+\end{align*}
+
+I'm going to rearrange this by dividing through by $\|\hat{x}\|$, as well as on the right side, multiplying by $1 = \|A\|/\|A\|$:
+\begin{align*}
+    \frac{\|\delta x\|}{\|\hat{x}\|} \leq \|A^{-1}\|\cdot \|A\|\left(\frac{\|\delta A\|}{\|A\|} + \frac{\|\delta b\|}{\|A\|\|\hat{x}\|}\right ).
+\end{align*}
+    On the left hand side, we have that the \textit{relative} error of $x$ with respect to $\hat{x}$,  on the right hand side we have the \textit{relative} error of $A$ with respect to $A$ AND the relative error of $b$ with respect to $A$ and $\hat{x}$.  The coefficient out front is called the \textit{condition number of a matrix}, $\kappa(A) := \|A^{-1}\|\cdot \|A\|$.  We can derive this a different and more structural way, using the definition directly:
+    \begin{align*}
+        \kappa &= \lim\limits_{\delta \to 0}\sup\limits_{\delta x \leq \delta} \left( \frac{\|A(x+\delta x ) - Ax\|}{\|Ax\|}\Big/ \frac{\|\delta x\|}{\|x\|}
+        \right)
+        \\
+        &= \lim\limits_{\delta \to 0}\sup\limits_{\delta x \leq \delta} \left( \frac{\|A\delta x\|}{\|Ax\|}\Big/ \frac{\|\delta x\|}{\|x\|}
+        \right)
+        \\
+        &= \lim\limits_{\delta \to 0}\sup\limits_{\delta x \leq \delta} \left( \frac{\|A\delta x\|}{\|\delta x\|}\Big/ \frac{\|Ax\|}{\|x\|}
+        \right).
+    \end{align*}
+    \textcolor{red}{Does this look familiar?}
+    \begin{align*}
+        \kappa = \lim\limits_{\delta \to 0}
+       \left( \|A\|\Big/ \frac{\|Ax\|}{\|x\|}
+        \right) = \|A\|\Big/ \frac{\|Ax\|}{\|x\|}
+    \end{align*}
+    \textcolor{red}{How can we get to the condition number of a matrix from here?}
+
+    Note that
+    \begin{align*}
+        \|x\| &= \|A^{-1}(Ax)\| \stackrel{C.S.}\leq \|A^{-1}\|\|Ax\|
+        \\
+        \|x\|/\|Ax\| &\leq \|A^{-1}\|,
+    \end{align*}
+    so no matter what,
+    \begin{align*}
+        \kappa \leq \|A\|\|A^{-1}\|.
+    \end{align*}
+    Consequently, the \textit{condition number of a matrix} is give by this upper bound on the condition number for \textit{any} given input.
+
+
+    \begin{theorem}
+        Let $\|\cdot\|$ satisfy $\|AB\| \leq \|A\|\cdot\|B\|$.  Then $\|X\|< 1$ implies that $I-X$ is invertible, and $(I-X)^{-1} = \sum\limits_{i=0}^\infty X^i$, with $\|(I-X)^{-1}\| = \frac{1}{1-\|X\|}$. \textcolor{red}{you do not need to memorize this theorem}
+    \end{theorem}
+    \begin{proof}
+        The sum $\sum\limits_{i=0}^\infty X^i$ is said to converge if and only if it converges in each component.  We use thee fact that, for any norm, there exists a constant $c$ such that $x_{jk} \leq c \cdot\|X\|$.  We then get that $|(X^i)_{jk} \leq c\cdot \|X^i\| \leq c\cdot \|X\|^i$, so each component of $\sum X^i$ is dominated by a convergent geometric series $\sum c \|X\|^i = \frac{c}{1-\|X\|}$.  Therefore, $S_n = \sum\limits{i=0}^n X^i$ converges to some $S$ as $n \to \infty$, and $(I-X)S_n = (I-X)(I+X^2+X^3 + \cdots + X^n) = I-X^{n+1} \to I$ as $n \to \infty$, since $\|X^i\| \leq \|X\|^i \to 0$ because $\|X\| < 1$.  Therefore, $(I-X)S = I$, and $S = (I-X)^{-1}$.  The final bound is $\|(I-X)^{-1}\| = \left\|\sum\limits_{i=0}^\infty X^i \right\| \leq \sum\limits_{i=0}^\infty \|X\|^i = \frac{1}{1-\|X\|}$.
+    \end{proof}
+
+    % \begin{theorem}
+    %     Let $A$ be non-singular.  Then 
+    %     \begin{align*}
+    %         \min \left\{\frac{\|\delta A\|_2}{\|A\|_2}: A+ \delta A \text{ is singular}\right\} = \frac{1}{\kappa(A).}
+    %     \end{align*}
+    % \end{theorem}
+
+    
+\end{document}
+
+
+
