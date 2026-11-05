@@ -1,23 +1,5 @@
 \documentclass{ximera}
 
-% Homework: Householder QR and the SVD from scratch (MATLAB version).
-
-% \usepackage[T1]{fontenc}
-% \usepackage[margin=1in]{geometry}
-% \usepackage{amsmath,amssymb}
-% \usepackage{enumitem}
-% \usepackage{xcolor}
-\usepackage{booktabs}
-
-\setlength{\emergencystretch}{3em}
-
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\cond}{\kappa}
-\newcommand{\norm}[1]{\lVert #1\rVert}
-\newcommand{\epsm}{\varepsilon_{\mathrm{mach}}}
-\newcommand{\fn}[1]{\texttt{\detokenize{#1}}\allowbreak}
-\DeclareMathOperator{\diag}{diag}
-
 \begin{document}
 
 \title{Homework 5 -- Householder QR and the SVD (MATLAB)}
@@ -26,7 +8,6 @@
 Implement Householder QR factorization and construct the singular
 value decomposition (SVD) using the eigendecomposition of $A^TA$.
 
-\medskip
 Due Date: Wednesday, November 11th, 11:59 pm
 \end{abstract}
 
@@ -35,35 +16,32 @@ Due Date: Wednesday, November 11th, 11:59 pm
 In this assignment, you will implement an important QR factorization
 algorithm and use it to explore the relationship between QR
 factorizations, eigenvalue decompositions, and the singular value
-decomposition. You will complete two Python functions. Graduate students will
-complete an additional third function. Each function takes a
-matrix as input and returns the corresponding factorization.
+decomposition. You will complete two MATLAB functions. Graduate
+students will complete an additional third function. Each function
+takes a matrix as input and returns the corresponding factorization.
 
 Throughout the assignment, assume that
 \[
-A\in\R^{m\times n}, \qquad m\geq n.
+A\in\mathbb{R}^{m\times n}, \qquad m\geq n.
 \]
 
 \begin{center}
-\small
-\begin{tabular}{@{}clll@{}}
-\toprule
+\begin{tabular}{|c|l|l|l|}
+\hline
 Part & Function & Algorithm & Output shapes\\
-\midrule
-
-1 & \fn{householder_qr} &
+\hline
+1 & \texttt{householder\_qr} &
 Householder reflections (full QR) &
 $Q:m\times m,\ R:m\times n$\\
-
-2 & \fn{svd_reduced} &
+\hline
+2 & \texttt{svd\_reduced} &
 Reduced SVD using $A^TA$ &
 $U:m\times n,\ S:n\times n,\ V:n\times n$\\
-
-3 & \fn{svd_full} &
+\hline
+3 & \texttt{svd\_full} &
 Full SVD using $A^TA$ &
 $U:m\times m,\ S:m\times n,\ V:n\times n$\\
-
-\bottomrule
+\hline
 \end{tabular}
 \end{center}
 
@@ -72,7 +50,6 @@ the full QR factorization will be used to understand orthogonal
 transformations, while the SVD implementations will use MATLAB's
 built-in QR function to complete orthonormal bases.
 
-%------------------------------------------------------------------
 \section*{Programming requirements and restrictions}
 
 Each function must be saved in its own MATLAB file, with the exact
@@ -80,10 +57,10 @@ filename specified in the table above.
 
 \paragraph{Allowed operations.}
 
-Inside \fn{householder_qr.m}, you may use elementary MATLAB
+Inside \texttt{householder\_qr.m}, you may use elementary MATLAB
 operations, including:
 
-\begin{itemize}[nosep]
+\begin{itemize}
     \item Matrix indexing and slicing.
     \item Basic arithmetic operations: \texttt{+}, \texttt{-},
     \texttt{*}, \texttt{/}, and transpose \texttt{'}.
@@ -97,14 +74,14 @@ operations, including:
 
 Inside the SVD implementations, you may additionally use:
 
-\begin{itemize}[nosep]
+\begin{itemize}
     \item MATLAB's built-in \texttt{eig} function to calculate
     the eigenvalues and eigenvectors of $A^TA$.
     \item MATLAB's built-in \texttt{qr} function to complete
     an orthonormal basis for the left singular vectors.
 \end{itemize}
 
-The \fn{qr} function is being used in the SVD implementations
+The \texttt{qr} function is being used in the SVD implementations
 only to complete an orthonormal basis. You must still implement
 the SVD construction yourself.
 
@@ -113,7 +90,7 @@ the SVD construction yourself.
 You may NOT use the following functions inside your implementation
 functions:
 
-\begin{itemize}[nosep]
+\begin{itemize}
     \item \texttt{svd}, \texttt{orth}, \texttt{null}.
     \item \texttt{chol}, \texttt{lu}, \texttt{inv}, \texttt{pinv}.
     \item The backslash operator.
@@ -127,45 +104,41 @@ implementations to complete the orthonormal basis for $U$.
 
 However, you may NOT use MATLAB's built-in \texttt{qr}
 function inside \texttt{householder\_qr.m}.
-%------------------------------------------------------------------
+
 \section*{Provided files}
 
 The starter folder contains the following files.
 
 \begin{center}
-\small
-\begin{tabular}{@{}p{5.2cm}p{10.5cm}@{}}
-\toprule
+\begin{tabular}{|p{4cm}|p{9cm}|}
+\hline
 File(s) & Purpose\\
-\midrule
-
-\fn{householder_qr.m} &
+\hline
+\texttt{householder\_qr.m} &
 Student implementation of the full QR factorization using
-Householder reflections.\\[4pt]
-
-\fn{svd_reduced.m} &
+Householder reflections.\\
+\hline
+\texttt{svd\_reduced.m} &
 Student implementation of the reduced SVD using the eigendecomposition
-of $A^TA$.\\[4pt]
-
-\fn{svd_full.m} &
+of $A^TA$.\\
+\hline
+\texttt{svd\_full.m} &
 Student implementation of the full SVD using the eigendecomposition
-of $A^TA$.\\[4pt]
-
-\fn{check_qr.m} &
-Prints diagnostic information for a QR factorization.\\[4pt]
-
-\fn{check_svd.m} &
-Prints diagnostic information for an SVD.\\[4pt]
-
-\fn{run_tests.m} &
+of $A^TA$.\\
+\hline
+\texttt{check\_qr.m} &
+Prints diagnostic information for a QR factorization.\\
+\hline
+\texttt{check\_svd.m} &
+Prints diagnostic information for an SVD.\\
+\hline
+\texttt{run\_tests.m} &
 Runs a collection of tests on the required implementations and
 prints PASS or FAIL for each test.\\
-
-\bottomrule
+\hline
 \end{tabular}
 \end{center}
 
-%------------------------------------------------------------------
 \section*{Testing your implementations}
 
 You are provided with two diagnostic functions and a test script.
@@ -173,30 +146,30 @@ You should use them throughout the assignment, not just at the end.
 
 \paragraph{QR diagnostics.}
 
-The function \fn{check_qr(A,Q,R)} checks:
+The function \texttt{check\_qr(A,Q,R)} checks:
 
-\begin{enumerate}[nosep]
+\begin{enumerate}
     \item The dimensions of $Q$ and $R$.
     \item The relative reconstruction error
     \[
-    \frac{\norm{A-QR}}{\norm{A}}.
+    \frac{\|A-QR\|}{\|A\|}.
     \]
     \item The orthogonality of $Q$:
     \[
-    \norm{Q^TQ-I}.
+    \|Q^TQ-I\|.
     \]
     \item The triangular structure of $R$.
 \end{enumerate}
 
 \paragraph{SVD diagnostics.}
 
-The function \fn{check_svd(A,U,S,V)} checks:
+The function \texttt{check\_svd(A,U,S,V)} checks:
 
-\begin{enumerate}[nosep]
+\begin{enumerate}
     \item The dimensions of $U$, $S$, and $V$.
     \item The relative reconstruction error
     \[
-    \frac{\norm{A-USV^T}}{\norm{A}}.
+    \frac{\|A-USV^T\|}{\|A\|}.
     \]
     \item The orthogonality of $U$ and $V$.
     \item The agreement between your computed singular values and
@@ -216,7 +189,7 @@ scripts, type the following at the MATLAB command prompt:
 The test script checks your implementations on several matrices,
 including:
 
-\begin{itemize}[nosep]
+\begin{itemize}
     \item Random tall matrices.
     \item Random square matrices.
     \item Rank-deficient matrices (for the SVD implementations).
@@ -235,7 +208,6 @@ zero matrix and nearly rank-deficient matrices. These are useful
 additional tests of your numerical-rank calculations and special
 case handling.
 
-%------------------------------------------------------------------
 \section{Householder QR}
 
 \paragraph{Background.}
@@ -248,7 +220,7 @@ A Householder reflector has the form
 \[
 H=I-2vv^T,
 \]
-where $\norm{v}_2=1$.
+where $\|v\|_2=1$.
 
 At step $k$, consider the vector
 \[
@@ -257,11 +229,11 @@ x=R(k:m,k).
 
 Construct
 \[
-v=\operatorname{sign}(x_1)\norm{x}_2e_1+x,
+v=\operatorname{sign}(x_1)\|x\|_2e_1+x,
 \]
 and normalize it:
 \[
-v\leftarrow\frac{v}{\norm{v}_2}.
+v\leftarrow\frac{v}{\|v\|_2}.
 \]
 
 Use the convention $\operatorname{sign}(0)=1$.
@@ -280,19 +252,18 @@ R(k:m,k:n)-2v\bigl(v^TR(k:m,k:n)\bigr).
 
 \paragraph{Task.}
 
-Complete the provided function \fn{householder_qr.m}.
+Complete the provided function \texttt{householder\_qr.m}.
 
 Your function should return the full QR factorization:
 \[
-Q\in\R^{m\times m},
+Q\in\mathbb{R}^{m\times m},
 \qquad
-R\in\R^{m\times n}.
+R\in\mathbb{R}^{m\times n}.
 \]
 
 Follow the three-step structure in the starter file.
 
-\begin{enumerate}[label=(\alph*),nosep]
-
+\begin{enumerate}
     \item Initialize $R=A$ and $Q=I_m$. Create a matrix to
     store the Householder vectors.
 
@@ -300,7 +271,7 @@ Follow the three-step structure in the starter file.
 
     For each column $k=1,\ldots,n$:
 
-    \begin{itemize}[nosep]
+    \begin{itemize}
         \item Extract the portion of the column that must be
         eliminated:
         \[
@@ -319,8 +290,9 @@ Follow the three-step structure in the starter file.
         block of $R$.
     \end{itemize}
 
-    \item Construct $Q$ by backward accumulation: starting with $Q=I_m$, apply the stored Householder
-    reflections in reverse order.
+    \item Construct $Q$ by backward accumulation: starting with
+    $Q=I_m$, apply the stored Householder reflections in reverse
+    order.
 
     \item Set the entries strictly below the diagonal of $R$
     to exactly zero before returning.
@@ -337,23 +309,22 @@ A=QR,\qquad Q^TQ=QQ^T=I_m.
 \begin{exercise}
 
 \begin{enumerate}
-
     \item Why is the sign in
     \[
-    v=\operatorname{sign}(x_1)\norm{x}_2e_1+x
+    v=\operatorname{sign}(x_1)\|x\|_2e_1+x
     \]
     chosen this way?
 
-    \item Run \fn{check_qr} on a random $50\times10$ matrix.
+    \item Run \texttt{check\_qr} on a random $50\times10$ matrix.
     Report the reconstruction error and orthogonality error.
 
     \item Compare the results of your Householder QR
     implementation with MATLAB's built-in \texttt{qr}
     function. Are the factors identical? Explain.
-
 \end{enumerate}
+
 \end{exercise}
-%------------------------------------------------------------------
+
 \section{Reduced Singular Value Decomposition}
 
 \paragraph{Background.}
@@ -365,9 +336,9 @@ A=USV^T.
 
 For the reduced SVD, the matrices have dimensions
 \[
-U\in\R^{m\times n},\qquad
-S\in\R^{n\times n},\qquad
-V\in\R^{n\times n}.
+U\in\mathbb{R}^{m\times n},\qquad
+S\in\mathbb{R}^{n\times n},\qquad
+V\in\mathbb{R}^{n\times n}.
 \]
 
 The columns of $U$ and $V$ are orthonormal, and $S$ is diagonal
@@ -410,15 +381,14 @@ singular vectors have been calculated.
 
 \paragraph{Task.}
 
-Complete the provided function \fn{svd_reduced.m}.
+Complete the provided function \texttt{svd\_reduced.m}.
 
 Follow the suggested outline in the starter file.
 
 In particular:
 
-\begin{enumerate}[label=(\alph*),nosep]
-
-    \item Use MATLAB's built-in \fn{eig} function to calculate
+\begin{enumerate}
+    \item Use MATLAB's built-in \texttt{eig} function to calculate
     the eigenvalues and eigenvectors of $A^TA$:
     \[
     A^TA=V\Lambda V^T.
@@ -435,7 +405,7 @@ In particular:
     \item Determine the numerical rank using
     \[
     \text{tol}=
-    \sqrt{\max(m,n)\epsm}\,\sigma_1.
+    \sqrt{\max(m,n)\varepsilon_{\mathrm{mach}}}\,\sigma_1.
     \]
 
     The numerical rank is
@@ -451,7 +421,7 @@ In particular:
     \]
 
     \item Complete the remaining columns of $U$ using MATLAB's
-    built-in \fn{qr} function.
+    built-in \texttt{qr} function.
 
     Specifically, apply QR to the matrix containing the first
     $r$ calculated left singular vectors. Retain the first $n$
@@ -462,9 +432,8 @@ In particular:
 
     \item Return
     \[
-    S=\diag(\sigma_1,\ldots,\sigma_n).
+    S=\operatorname{diag}(\sigma_1,\ldots,\sigma_n).
     \]
-
 \end{enumerate}
 
 \paragraph{Important numerical consideration.}
@@ -472,7 +441,7 @@ In particular:
 The matrix $A^TA$ has condition number approximately equal to
 the square of the condition number of $A$:
 \[
-\cond(A^TA)=\cond(A)^2.
+\operatorname{cond}(A^TA)=\operatorname{cond}(A)^2.
 \]
 
 Consequently, very small singular values may be lost when
@@ -482,7 +451,6 @@ This is why we use a numerical rank tolerance rather than
 assuming that every computed eigenvalue is positive and meaningful.
 
 \begin{exercise}
-    
 
 \begin{enumerate}
     \item Why do we sort the eigenvalues in descending order?
@@ -493,13 +461,12 @@ assuming that every computed eigenvalue is positive and meaningful.
     \item Explain why the eigenvalues of $A^TA$ are nonnegative
     in exact arithmetic.
 
-    \item Run \fn{check_svd} on a random $8\times5$ matrix
+    \item Run \texttt{check\_svd} on a random $8\times5$ matrix
     and a rank-deficient matrix. Report your results.
-
 \end{enumerate}
+
 \end{exercise}
 
-%------------------------------------------------------------------
 \section{GRAD STUDENTS ONLY: Full Singular Value Decomposition}
 
 \paragraph{Background.}
@@ -510,9 +477,9 @@ A=USV^T,
 \]
 but now
 \[
-U\in\R^{m\times m},\qquad
-S\in\R^{m\times n},\qquad
-V\in\R^{n\times n}.
+U\in\mathbb{R}^{m\times m},\qquad
+S\in\mathbb{R}^{m\times n},\qquad
+V\in\mathbb{R}^{n\times n}.
 \]
 
 Thus, $U$ is a square orthogonal matrix, and $S$ is a rectangular
@@ -524,7 +491,7 @@ of $U$.
 
 \paragraph{Task.}
 
-Complete the provided function \fn{svd_full.m}.
+Complete the provided function \texttt{svd\_full.m}.
 
 This implementation follows essentially the same procedure as
 the reduced SVD. The main difference is that the full SVD retains
@@ -534,8 +501,7 @@ Follow the suggested outline in the starter file.
 
 In particular:
 
-\begin{enumerate}[label=(\alph*),nosep]
-
+\begin{enumerate}
     \item Calculate the eigenvalues and eigenvectors of $A^TA$,
     sort them in descending order, and rearrange the eigenvectors
     accordingly.
@@ -548,7 +514,7 @@ In particular:
     u_i=\frac{Av_i}{\sigma_i}.
     \]
 
-    \item Complete $U$ using MATLAB's built-in \fn{qr} function.
+    \item Complete $U$ using MATLAB's built-in \texttt{qr} function.
     Apply QR to the matrix containing the first $r$ left singular
     vectors and retain all $m$ columns of the resulting
     orthogonal matrix.
@@ -564,11 +530,10 @@ In particular:
     \[
     S=
     \begin{bmatrix}
-    \diag(\sigma_1,\ldots,\sigma_n)\\
+    \operatorname{diag}(\sigma_1,\ldots,\sigma_n)\\
     0
     \end{bmatrix}.
     \]
-
 \end{enumerate}
 
 Your final matrices must satisfy
@@ -587,13 +552,13 @@ A=USV^T,\qquad U^TU=I_m,\qquad V^TV=I_n.
     \item What is the relationship between the additional
     columns of $U$ and the null space of $A^T$?
 
-    \item Run \fn{check_svd} on a random $8\times5$ matrix
+    \item Run \texttt{check\_svd} on a random $8\times5$ matrix
     and a zero matrix. Verify that your results satisfy the
     defining properties of the full SVD.
-
 \end{enumerate}
+
 \end{exercise}
-%------------------------------------------------------------------
+
 \section*{Final testing and submission (all students)}
 
 Before submitting your assignment, make sure that all three
@@ -609,7 +574,7 @@ the required functions.
 
 The provided test script checks:
 
-\begin{itemize}[nosep]
+\begin{itemize}
     \item Random tall matrices.
     \item Random square matrices.
     \item Rank-deficient matrices for the SVD implementations.
@@ -620,17 +585,17 @@ and nearly rank-deficient matrices. These are particularly
 important for checking the numerical-rank calculation and
 special case handling.
 
-If a test fails, use \fn{check_qr} or \fn{check_svd} to help
+If a test fails, use \texttt{check\_qr} or \texttt{check\_svd} to help
 identify the source of the error.
 
 \paragraph{Files to submit.}
 
 Submit the following three MATLAB function files:
 
-\begin{enumerate}[nosep]
-    \item \fn{householder_qr.m}
-    \item \fn{svd_reduced.m}
-    \item \fn{svd_full.m}
+\begin{enumerate}
+    \item \texttt{householder\_qr.m}
+    \item \texttt{svd\_reduced.m}
+    \item \texttt{svd\_full.m}
 \end{enumerate}
 
 Also include a text file or PDF containing the answers to the
@@ -647,6 +612,5 @@ files.
 Passing the provided tests is necessary, but your implementation
 should work for general matrices satisfying the assumptions
 specified in each exercise.
-
 
 \end{document}

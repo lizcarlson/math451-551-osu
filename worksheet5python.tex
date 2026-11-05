@@ -1,23 +1,5 @@
 \documentclass{ximera}
 
-% Homework: Householder QR and the SVD from scratch (Python version).
-
-% \usepackage[T1]{fontenc}
-% \usepackage[margin=1in]{geometry}
-% \usepackage{amsmath,amssymb}
-% \usepackage{enumitem}
-% \usepackage{xcolor}
-\usepackage{booktabs}
-
-\setlength{\emergencystretch}{3em}
-
-\newcommand{\R}{\mathbb{R}}
-\newcommand{\cond}{\kappa}
-\newcommand{\norm}[1]{\lVert #1\rVert}
-\newcommand{\epsm}{\varepsilon_{\mathrm{mach}}}
-\newcommand{\fn}[1]{\texttt{\detokenize{#1}}\allowbreak}
-\DeclareMathOperator{\diag}{diag}
-
 \begin{document}
 
 \title{Homework 5 -- Householder QR and the SVD (Python)}
@@ -26,43 +8,40 @@
 Implement Householder QR factorization and construct the singular
 value decomposition (SVD) using the eigendecomposition of $A^TA$.
 
-\medskip
 Due Date: Wednesday, November 11th, 11:59 pm
 \end{abstract}
 
 \maketitle
 
-In this assignment, you will implement (from scratch, with guidance) an important QR factorization
-algorithm and use it to explore the relationship between QR
-factorizations, eigenvalue decompositions, and the singular value
-decomposition.  You will complete two Python functions. Graduate students will
-complete an additional third function.
+In this assignment, you will implement (from scratch, with guidance)
+an important QR factorization algorithm and use it to explore the
+relationship between QR factorizations, eigenvalue decompositions,
+and the singular value decomposition. You will complete two Python
+functions. Graduate students will complete an additional third
+function.
 
 Throughout the assignment, assume
 \[
-A\in\R^{m\times n}, \qquad m\geq n.
+A\in\mathbb{R}^{m\times n}, \qquad m\geq n.
 \]
 
 \begin{center}
-\small
-\begin{tabular}{@{}clll@{}}
-\toprule
+\begin{tabular}{|c|l|l|l|}
+\hline
 Part & Function & Algorithm & Output shapes\\
-\midrule
-
-1 & \fn{householder_qr} &
+\hline
+1 & \texttt{householder\_qr} &
 Householder reflections (full QR) &
 $Q:m\times m,\ R:m\times n$\\
-
-2 & \fn{svd_reduced} &
+\hline
+2 & \texttt{svd\_reduced} &
 Reduced SVD using $A^TA$ &
 $U:m\times n,\ S:n\times n,\ V:n\times n$\\
-
-3 & \fn{svd_full} &
+\hline
+3 & \texttt{svd\_full} &
 Full SVD using $A^TA$ &
 $U:m\times m,\ S:m\times n,\ V:n\times n$\\
-
-\bottomrule
+\hline
 \end{tabular}
 \end{center}
 
@@ -71,8 +50,6 @@ the full QR factorization will be used to understand orthogonal
 transformations, while the SVD implementations will use Python's
 built-in NumPy QR function to complete orthonormal bases.
 
-
-%------------------------------------------------------------------
 \section*{Programming requirements and restrictions}
 
 Each function must be saved in its own Python file, with the exact
@@ -87,10 +64,10 @@ import numpy as np
 
 \paragraph{Allowed operations.}
 
-Inside \fn{householder_qr.py}, you may use elementary NumPy
+Inside \texttt{householder\_qr.py}, you may use elementary NumPy
 operations, including:
 
-\begin{itemize}[nosep]
+\begin{itemize}
     \item Matrix indexing and slicing.
     \item Basic arithmetic operations: \texttt{+}, \texttt{-},
     \texttt{*}, \texttt{/}, and matrix multiplication \texttt{@}.
@@ -105,7 +82,7 @@ operations, including:
 
 Inside the SVD implementations, you may additionally use:
 
-\begin{itemize}[nosep]
+\begin{itemize}
     \item NumPy's built-in \texttt{np.linalg.eigh} function to
     calculate the eigenvalues and eigenvectors of $A^TA$.
     \item NumPy's built-in \texttt{np.linalg.qr} function to
@@ -114,7 +91,7 @@ Inside the SVD implementations, you may additionally use:
     \item \texttt{np.finfo(float).eps} to obtain machine precision.
 \end{itemize}
 
-The \fn{np.linalg.qr} function is being used in the SVD
+The \texttt{np.linalg.qr} function is being used in the SVD
 implementations only to complete an orthonormal basis. You must
 still implement the SVD construction yourself.
 
@@ -132,7 +109,7 @@ This ensures that $Q$ contains all the required orthonormal columns.
 You may NOT use the following functions inside your implementation
 functions:
 
-\begin{itemize}[nosep]
+\begin{itemize}
     \item \texttt{np.linalg.svd}, \texttt{np.linalg.eigvals},
     \texttt{np.linalg.eigvalsh}, \texttt{scipy.linalg.svd}.
     \item \texttt{scipy.linalg.orth}, \texttt{scipy.linalg.null\_space}.
@@ -151,45 +128,40 @@ SVD implementations to complete the orthonormal basis for $U$.
 However, you may NOT use NumPy's built-in \texttt{np.linalg.qr}
 function inside \texttt{householder\_qr.py}.
 
-%------------------------------------------------------------------
 \section*{Provided files}
 
 The starter folder contains the following files.
 
 \begin{center}
-\small
-\begin{tabular}{@{}p{5.2cm}p{10.5cm}@{}}
-\toprule
+\begin{tabular}{|p{4cm}|p{9cm}|}
+\hline
 File(s) & Purpose\\
-\midrule
-
-\fn{householder_qr.py} &
+\hline
+\texttt{householder\_qr.py} &
 Student implementation of the full QR factorization using
-Householder reflections.\\[4pt]
-
-\fn{svd_reduced.py} &
+Householder reflections.\\
+\hline
+\texttt{svd\_reduced.py} &
 Student implementation of the reduced SVD using the eigendecomposition
-of $A^TA$.\\[4pt]
-
-\fn{svd_full.py} &
+of $A^TA$.\\
+\hline
+\texttt{svd\_full.py} &
 Student implementation of the full SVD using the eigendecomposition
-of $A^TA$.\\[4pt]
-
-\fn{check_qr.py} &
-Prints diagnostic information for a QR factorization.\\[4pt]
-
-\fn{check_svd.py} &
-Prints diagnostic information for an SVD.\\[4pt]
-
-\fn{run_tests.py} &
+of $A^TA$.\\
+\hline
+\texttt{check\_qr.py} &
+Prints diagnostic information for a QR factorization.\\
+\hline
+\texttt{check\_svd.py} &
+Prints diagnostic information for an SVD.\\
+\hline
+\texttt{run\_tests.py} &
 Runs a collection of tests on the required implementations and
 prints PASS or FAIL for each test.\\
-
-\bottomrule
+\hline
 \end{tabular}
 \end{center}
 
-%------------------------------------------------------------------
 \section*{Testing your implementations}
 
 You are provided with two diagnostic functions and a test script.
@@ -197,30 +169,30 @@ You should use them throughout the assignment, not just at the end.
 
 \paragraph{QR diagnostics.}
 
-The function \fn{check_qr(A,Q,R)} checks:
+The function \texttt{check\_qr(A,Q,R)} checks:
 
-\begin{enumerate}[nosep]
+\begin{enumerate}
     \item The dimensions of $Q$ and $R$.
     \item The relative reconstruction error
     \[
-    \frac{\norm{A-QR}}{\norm{A}}.
+    \frac{\|A-QR\|}{\|A\|}.
     \]
     \item The orthogonality of $Q$:
     \[
-    \norm{Q^TQ-I}.
+    \|Q^TQ-I\|.
     \]
     \item The triangular structure of $R$.
 \end{enumerate}
 
 \paragraph{SVD diagnostics.}
 
-The function \fn{check_svd(A,U,S,V)} checks:
+The function \texttt{check\_svd(A,U,S,V)} checks:
 
-\begin{enumerate}[nosep]
+\begin{enumerate}
     \item The dimensions of $U$, $S$, and $V$.
     \item The relative reconstruction error
     \[
-    \frac{\norm{A-USV^T}}{\norm{A}}.
+    \frac{\|A-USV^T\|}{\|A\|}.
     \]
     \item The orthogonality of $U$ and $V$.
     \item The agreement between your computed singular values and
@@ -242,7 +214,7 @@ python run_tests.py
 The test script checks your implementations on several matrices,
 including:
 
-\begin{itemize}[nosep]
+\begin{itemize}
     \item Random tall matrices.
     \item Random square matrices.
     \item Rank-deficient matrices (for the SVD implementations).
@@ -261,7 +233,6 @@ zero matrix and nearly rank-deficient matrices. These are useful
 additional tests of your numerical-rank calculations and special
 case handling.
 
-%------------------------------------------------------------------
 \section{Householder QR}
 
 \paragraph{Background.}
@@ -274,7 +245,7 @@ A Householder reflector has the form
 \[
 H=I-2vv^T,
 \]
-where $\norm{v}_2=1$.
+where $\|v\|_2=1$.
 
 At step $k$, consider the vector
 \[
@@ -283,11 +254,11 @@ x=R(k:m,k).
 
 Construct
 \[
-v=\operatorname{sign}(x_1)\norm{x}_2e_1+x,
+v=\operatorname{sign}(x_1)\|x\|_2e_1+x,
 \]
 and normalize it:
 \[
-v\leftarrow\frac{v}{\norm{v}_2}.
+v\leftarrow\frac{v}{\|v\|_2}.
 \]
 
 Use the convention $\operatorname{sign}(0)=1$.
@@ -313,19 +284,18 @@ operator, and the transpose of a matrix or vector should use
 
 \paragraph{Task.}
 
-Complete the provided function \fn{householder_qr.py}.
+Complete the provided function \texttt{householder\_qr.py}.
 
 Your function should return the full QR factorization:
 \[
-Q\in\R^{m\times m},
+Q\in\mathbb{R}^{m\times m},
 \qquad
-R\in\R^{m\times n}.
+R\in\mathbb{R}^{m\times n}.
 \]
 
 Follow the three-step structure in the starter file.
 
-\begin{enumerate}[label=(\alph*),nosep]
-
+\begin{enumerate}
     \item Initialize $R=A$ and $Q=I_m$. Create a matrix to
     store the Householder vectors.
 
@@ -333,7 +303,7 @@ Follow the three-step structure in the starter file.
 
     For each column $k=0,\ldots,n-1$:
 
-    \begin{itemize}[nosep]
+    \begin{itemize}
         \item Extract the portion of the column that must be
         eliminated:
         \[
@@ -372,15 +342,16 @@ A=QR,\qquad Q^TQ=QQ^T=I_m.
 \]
 
 \begin{exercise}
+
 \begin{enumerate}
 
     \item Why is the sign in
     \[
-    v=\operatorname{sign}(x_1)\norm{x}_2e_1+x
+    v=\operatorname{sign}(x_1)\|x\|_2e_1+x
     \]
     chosen this way?
 
-    \item Run \fn{check_qr} on a random $50\times10$ matrix.
+    \item Run \texttt{check\_qr} on a random $50\times10$ matrix.
     Report the reconstruction error and orthogonality error.
 
     \item Compare the results of your Householder QR
@@ -388,8 +359,9 @@ A=QR,\qquad Q^TQ=QQ^T=I_m.
     function. Are the factors identical? Explain.
 
 \end{enumerate}
+
 \end{exercise}
-%------------------------------------------------------------------
+
 \section{Reduced Singular Value Decomposition}
 
 \paragraph{Background.}
@@ -401,9 +373,9 @@ A=USV^T.
 
 For the reduced SVD, the matrices have dimensions
 \[
-U\in\R^{m\times n},\qquad
-S\in\R^{n\times n},\qquad
-V\in\R^{n\times n}.
+U\in\mathbb{R}^{m\times n},\qquad
+S\in\mathbb{R}^{n\times n},\qquad
+V\in\mathbb{R}^{n\times n}.
 \]
 
 The columns of $U$ and $V$ are orthonormal, and $S$ is diagonal
@@ -449,15 +421,15 @@ factorization returns a full orthogonal matrix.
 
 \paragraph{Task.}
 
-Complete the provided function \fn{svd_reduced.py}.
+Complete the provided function \texttt{svd\_reduced.py}.
 
 Follow the suggested outline in the starter file.
 
 In particular:
 
-\begin{enumerate}[label=(\alph*),nosep]
+\begin{enumerate}
 
-    \item Use NumPy's built-in \fn{np.linalg.eigh} function to
+    \item Use NumPy's built-in \texttt{np.linalg.eigh} function to
     calculate the eigenvalues and eigenvectors of $A^TA$:
     \[
     A^TA=V\Lambda V^T.
@@ -474,7 +446,7 @@ In particular:
     \item Determine the numerical rank using
     \[
     \text{tol}=
-    \sqrt{\max(m,n)\epsm}\,\sigma_1.
+    \sqrt{\max(m,n)\varepsilon_{\mathrm{mach}}}\,\sigma_1.
     \]
 
     The numerical rank is
@@ -493,7 +465,7 @@ In particular:
     \]
 
     \item Complete the remaining columns of $U$ using NumPy's
-    built-in \fn{np.linalg.qr} function.
+    built-in \texttt{np.linalg.qr} function.
 
     Specifically, apply a complete QR factorization to the
     matrix containing the first $r$ calculated left singular
@@ -505,7 +477,7 @@ In particular:
 
     \item Return
     \[
-    S=\diag(\sigma_1,\ldots,\sigma_n).
+    S=\operatorname{diag}(\sigma_1,\ldots,\sigma_n).
     \]
 
 \end{enumerate}
@@ -515,7 +487,7 @@ In particular:
 The matrix $A^TA$ has condition number approximately equal to
 the square of the condition number of $A$:
 \[
-\cond(A^TA)=\cond(A)^2.
+\operatorname{cond}(A^TA)=\operatorname{cond}(A)^2.
 \]
 
 Consequently, very small singular values may be lost when
@@ -536,12 +508,13 @@ assuming that every computed eigenvalue is positive and meaningful.
     \item Explain why the eigenvalues of $A^TA$ are nonnegative
     in exact arithmetic.
 
-    \item Run \fn{check_svd} on a random $8\times5$ matrix
+    \item Run \texttt{check\_svd} on a random $8\times5$ matrix
     and a rank-deficient matrix. Report your results.
 
 \end{enumerate}
+
 \end{exercise}
-%------------------------------------------------------------------
+
 \section{GRAD STUDENTS ONLY: Full Singular Value Decomposition}
 
 \paragraph{Background.}
@@ -552,9 +525,9 @@ A=USV^T,
 \]
 but now
 \[
-U\in\R^{m\times m},\qquad
-S\in\R^{m\times n},\qquad
-V\in\R^{n\times n}.
+U\in\mathbb{R}^{m\times m},\qquad
+S\in\mathbb{R}^{m\times n},\qquad
+V\in\mathbb{R}^{n\times n}.
 \]
 
 Thus, $U$ is a square orthogonal matrix, and $S$ is a rectangular
@@ -566,7 +539,7 @@ of $U$.
 
 \paragraph{Task.}
 
-Complete the provided function \fn{svd_full.py}.
+Complete the provided function \texttt{svd\_full.py}.
 
 This implementation follows essentially the same procedure as
 the reduced SVD. The main difference is that the full SVD retains
@@ -576,7 +549,7 @@ Follow the suggested outline in the starter file.
 
 In particular:
 
-\begin{enumerate}[label=(\alph*),nosep]
+\begin{enumerate}
 
     \item Calculate the eigenvalues and eigenvectors of $A^TA$,
     sort them in descending order, and rearrange the eigenvectors
@@ -590,7 +563,7 @@ In particular:
     u_i=\frac{Av_i}{\sigma_i}.
     \]
 
-    \item Complete $U$ using NumPy's built-in \fn{np.linalg.qr}
+    \item Complete $U$ using NumPy's built-in \texttt{np.linalg.qr}
     function. Apply a complete QR factorization to the matrix
     containing the first $r$ left singular vectors and retain
     all $m$ columns of the resulting orthogonal matrix.
@@ -606,7 +579,7 @@ In particular:
     \[
     S=
     \begin{bmatrix}
-    \diag(\sigma_1,\ldots,\sigma_n)\\
+    \operatorname{diag}(\sigma_1,\ldots,\sigma_n)\\
     0
     \end{bmatrix}.
     \]
@@ -621,6 +594,7 @@ A=USV^T,\qquad U^TU=I_m,\qquad V^TV=I_n.
 \begin{exercise}
 
 \begin{enumerate}
+
     \item What is the difference between the reduced and full SVD?
 
     \item Explain why the additional columns of $U$ are
@@ -629,13 +603,14 @@ A=USV^T,\qquad U^TU=I_m,\qquad V^TV=I_n.
     \item What is the relationship between the additional
     columns of $U$ and the null space of $A^T$?
 
-    \item Run \fn{check_svd} on a random $8\times5$ matrix
+    \item Run \texttt{check\_svd} on a random $8\times5$ matrix
     and a zero matrix. Verify that your results satisfy the
     defining properties of the full SVD.
 
 \end{enumerate}
+
 \end{exercise}
-%------------------------------------------------------------------
+
 \section*{Final testing and submission}
 
 Before submitting your assignment, make sure that all three
@@ -652,7 +627,7 @@ the required functions.
 
 The provided test script checks:
 
-\begin{itemize}[nosep]
+\begin{itemize}
     \item Random tall matrices.
     \item Random square matrices.
     \item Rank-deficient matrices for the SVD implementations.
@@ -663,17 +638,17 @@ and nearly rank-deficient matrices. These are particularly
 important for checking the numerical-rank calculation and
 special case handling.
 
-If a test fails, use \fn{check_qr} or \fn{check_svd} to help
+If a test fails, use \texttt{check\_qr} or \texttt{check\_svd} to help
 identify the source of the error.
 
 \paragraph{Files to submit.}
 
 Submit the following three Python function files:
 
-\begin{enumerate}[nosep]
-    \item \fn{householder_qr.py}
-    \item \fn{svd_reduced.py}
-    \item \fn{svd_full.py}
+\begin{enumerate}
+    \item \texttt{householder\_qr.py}
+    \item \texttt{svd\_reduced.py}
+    \item \texttt{svd\_full.py}
 \end{enumerate}
 
 Also include a text file or PDF containing the answers to the
@@ -690,7 +665,5 @@ files.
 Passing the provided tests is necessary, but your implementation
 should work for general matrices satisfying the assumptions
 specified in each exercise.
-
-
 
 \end{document}
