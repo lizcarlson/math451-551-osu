@@ -1,0 +1,64 @@
+\documentclass{ximera}
+\begin{document}
+
+    \title{Lecture 17}
+    
+    \begin{abstract} 
+        - Matrix condition number tells us how easy/difficult it is to solve $Ax = b$, and LSQ problems.
+    \end{abstract}
+    \maketitle
+
+\textit{This lecture is partly derived from Demmel Chapter 2.2 in Demmel.}
+
+
+    \begin{theorem}
+        Let $A \in \mathbb{C}^{m\times m}$ be non-singular.  Then 
+        \begin{align*}
+            \min \left\{\frac{\|\delta A\|_2}{\|A\|_2}: A+ \delta A \text{ is singular}\right\} = \frac{1}{\|A\|_2\cdot \|A^{-1}\|_2} = \frac{1}{\kappa(A).}
+        \end{align*}
+    \end{theorem}
+\begin{proof}
+    It is enough to show that $\min\{\|\delta A\|_2 : A+ \delta A \text{ is singular}\} = \frac{1}{\|A^{-1}\|_2}$.
+    To show this minimum is at least $\frac{1}{\|A^{-1}\|_2}$, note that if $\|\delta A\|_2 \leq \frac{1}{\|A^{-1}\|_2}$, then $1 \geq \|\delta A\|_2 \cdot \|A^{-1}\|_2 \geq \|A^{-1}\delta A\|_2$, so our theorem from the last class implies that $I+A^{-1}\delta A$ is invertible, and therefore so is $A^{-1}\delta A$.  Consequently, $A(I+A^{-1}\delta A) = A+ \delta A$ is invertible because the product of invertible matrices is invertible.
+    
+    To show the minimum actually equals $\frac{1}{\|A^{-1}\|_2}$, we construct a $\delta A$ of norm $\frac{1}{\|A^{-1}\|_2}$ such that $A + \delta A$ is singular.  Since $\|A^{-1}\|_2 = \max\limits_{x\neq 0} \frac{\|A^{-1}x\|_2}{\|x\|_2}$, there exists such an $x^\dagger$ satisfying $\|A^{-1}\|_2 = \|A^{-1}x^\dagger\|_2 >0$.  Let $ y = \frac{A^{-1}x^\dagger}{\|A^{-1}x^\dagger\|_2} = \frac{A^{-1}x^\dagger}{\|A^{-1}\|_2}$, so $\|y\|_2 = 1$.  Then let $\delta A = \frac{-x^\dagger y^*}{\|A^{-1}\|_2}$.  
+    Note that this renders $A+ \delta A$ singular:
+    \begin{align*}
+    (I+A^{-1}\delta A)x^\dagger &= x^\dagger + A^{-1}( -x^\dagger (A^{-1}x^\dagger)^*x^\dagger/\|A^{-1}\|^2)  \\
+    &= x^\dagger - \frac{A^{-1}x^\dagger(A^{-1}x^\dagger)^*}{\|A^{-1}\|_2^2}x^\dagger
+    \\
+    &= x^\dagger - x^\dagger = 0.
+    \end{align*}
+    Then,
+    \begin{align*}
+        \|\delta A\|_2 &= \max\limits_{x\neq 0} \frac{\|\frac{-x^\dagger y^*}{\|A^{-1}\|_2} x\|_2}{\|x\|_2}
+        \\
+        &= \max\limits_{x\neq 0} \frac{\|-x^\dagger y^*x\|_2}{\|A^{-1}\|_2\|x\|_2}
+        \\
+        &= \max\limits_{x\neq 0} \frac{\|-x^\dagger \textcolor{red}{(y^*x)}\|_2}{\|A^{-1}\|_2\|x\|_2}
+        \\
+        &= \max\limits_{x\neq 0} |\textcolor{red}{(y^*x)}| \frac{\|-x^\dagger \|_2}{\|A^{-1}\|_2\|x\|_2}
+        \\
+        &= 
+        \max\limits_{x\neq 0} \left(\frac{|\textcolor{red}{(y^*x)}|}{\|x\|_2} \right)\frac{\|x^\dagger \|_2}{\|A^{-1}\|_2}
+        \\
+        &= \max\limits_{\|x\|_2 = 1} \left(|\textcolor{red}{(y^*x)}|\right)\frac{\|x^\dagger \|_2}{\|A^{-1}\|_2}
+        \\
+        &= 1\cdot \frac{\|x^\dagger\|_2}{\|A^{-1}\|_2}
+        \\
+        &= 1\cdot \frac{1}{\|A^{-1}\|_2}.
+    \end{align*}
+\end{proof}
+
+\textcolor{red}{Notice that this analysis has *nothing* to do with whether or not a computer can represent $A$ correctly.  This tells us that the ``hardness" of solving $Ax = b$ depends exclusively on the condition number of the matrix $A$!}  Even though the notion was derived from the fact that all numbers are not exactly representable on finite machines, this methodology is only using a generic representation of this small error in the form of $\delta A$.  Moreover, your computer will *actually* compute $\kappa(A+\delta A)$, as this is what is representable on the computer, but this is close enough to the real condition number because norms are continuous.
+
+In the case where we do not have $A$ a square matrix, then the condition number is given by $\kappa(A) = \|A^+\|_2\cdot \|A\|_2$.  This can be argued directly from Theorem 11.1 in your textbook, as the best least squares solution is given by solving $A^*Ax = A^*b$, where we see that $A^*A$ is the square matrix.  Instead of $x = A^{-1}b$, we now have $x = ((A^*A)^{-1}A)b = A^+b.$
+
+
+
+%Up to this point, we have looked at the SVD and QR factorization using classical Gram-Schmidt, modified Gram-Schmidt, and Householder triangularization.  Householder we have yet to truly code, though classical and modified Gram-Schmidt have been done.  This week's homework will guide you to add to your modified Gram-Schmidt method your own suite of numerically stable algorithms for SVD and Householder.
+    
+\end{document}
+
+
+
