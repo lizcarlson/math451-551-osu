@@ -1,0 +1,120 @@
+\documentclass{ximera}
+\begin{document}
+
+    \title{Lecture 18}
+    
+    \begin{abstract} 
+        - Review Gaussian elimination and elementary matrices \\
+        - LU decomposition
+    \end{abstract}
+    \maketitle
+
+\textit{This lecture is an alternative to the first 2/3 of Lecture 20 in Trefethen \& Bau.}
+
+Recall that the process of Gaussian elimination, to put a matrix into REF or RREF, are given by the following 3 rules:
+\begin{enumerate}
+    \item  Interchange two equations.
+    \item  Multiply an equation by a nonzero constant.
+    \item  Add a constant multiple of one equation to another.
+\end{enumerate}
+
+Let's consider the system of equations 
+\begin{align*}
+    x+2y-z &= 3 \\
+    2x+5y+z &=12 \\
+    3x+8y+2z &=19
+\end{align*}
+which, to allow us to perform Gaussian elimination, can be written in the form:
+\begin{align*}
+\left[
+\begin{array}{rrr|r}
+1 & 2 & -1 & 3 \\
+2 & 5 & 1 & 12 \\
+3 & 8 & 2 & 19
+\end{array}
+\right],
+\end{align*}
+where $A = \begin{bmatrix} 1 & 2 & -1 \\
+2 & 5 & 1 \\
+3 & 8 & 2\end{bmatrix}$.
+
+\textcolor{blue}{Exercise: 
+\begin{enumerate}
+    \item Determine the row operations necessary to put $A$ into an upper triangular form.  Write these row operations as elementary matrices multiplying $A$ (there should be 3).   
+    \item Why are elementary matrices invertible?
+    \item Compute $E_1A$, then $E_2E_1A$, then $E_3E_2E_1A$.  What do you notice about the structure of each of the elementary matrices, and the structure of each of the products?
+    \item Write the resulting upper triangular matrix as the product $L_2L_1A$, where $L_1$ takes $A$ and zeroes out the first column except for the first entry, and $L_2$ takes $L_1A$ and zeros out the second column except for the first two entries.  (These are called elimination matrices.)
+    \item Do everything again, except instead of using numbers, consider a general matrix 
+    \begin{align*}
+        A = \begin{bmatrix} a_{11} & a_{12} & a_{13} \\
+        a_{21} & a_{22} & a_{23} \\
+        a_{31} & a_{32} & a_{33}\end{bmatrix}
+    \end{align*}
+    and assume $a_{ij} \neq 0$ for all $i,j \in \{1,2,3\}$.
+\end{enumerate}
+}
+Answer: \begin{align*}
+E_1 &= \begin{bmatrix}
+1 & 0 & 0\\
+-2 & 1 & 0\\
+0 & 0 & 1
+\end{bmatrix}\quad
+E_2 = \begin{bmatrix}
+1 & 0 & 0\\
+0 & 1 & 0\\
+-3 & 0 & 1
+\end{bmatrix}\quad
+E_3 = \begin{bmatrix}
+1 & 0 & 0\\
+0 & 1 & 0\\
+0 & -2 & 1
+\end{bmatrix}
+\end{align*}
+\[L_1 = E_2E_1, L_2 = E_3\]
+
+
+Taxonomy of methods for factoring a matrix: 
+Gram-Schmidt: $A = QR$ by triangular orthogonalization
+\\
+Householder: $A = QR$ by orthogonal triangularization
+\\
+Gaussian elimination: $A = LU$ by triangular triangularization
+
+\vspace{0.2in}
+
+General formulas for a square matrix:
+Let $x_k$ denote the column of $E_{k-1} \cdots E_1A$.  Then $L_k$ must be chosen such that
+\begin{align*}
+    x_k = \begin{bmatrix}
+        x_{1k} \\ \vdots \\ x_{kk} \\ x_{k+1,k} \\ \vdots\\ x_{mk}
+    \end{bmatrix} \;
+    \stackrel{L_k}{\rightarrow} \; L_kx_k = \begin{bmatrix}
+        x_{1k} \\ \vdots \\ x_{kk} \\ 0 \\ \vdots \\0
+    \end{bmatrix}
+\end{align*}
+
+To do this, we wish to subtract $l_{jk}$ times row $k$ from row $j$, where $l_{jk}$ is the multiplier 
+\begin{align*}
+    l_{jk} = \frac{x_{jk}}{x_{kk}}, \quad k < j \leq m.
+\end{align*}
+The matrix $L_k$ then takes the form
+\begin{align*}
+    L_k = \begin{bmatrix}
+        1 & & & & & \\
+         & \ddots & & & & \\
+         & & 1 &&&\\
+         && -l_{k+1,k} & 1 & & \\
+         &&\vdots&& \ddots &\\
+         && -l_{mk} &&& 1
+    \end{bmatrix}
+\end{align*}
+with the nonzero subdiagonal entries situated in column $k$.
+
+In practice, these $l_{jk}$ multipliers are computed and stored directly, so we neither have to form elementary matrices nor elimination matrices outright.  (See Algorithm 20.1 in your textbook.)
+
+Only problem: this method is not backward stable.  Will fix, next time.
+
+\end{document}
+
+
+

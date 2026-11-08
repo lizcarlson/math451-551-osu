@@ -1,0 +1,61 @@
+\documentclass{ximera}
+
+\begin{document}
+
+    \title{In-Class Assignment 5}
+    
+    \begin{abstract} Solve the following problems.
+    \end{abstract}
+    \maketitle
+
+
+Let's consider the system of equations 
+\begin{align*}
+    x+2y-z &= 3 \\
+    2x+5y+z &=12 \\
+    3x+8y+2z &=19
+\end{align*}
+which, to allow us to perform Gaussian elimination, can be written in the form:
+\begin{align*}
+\left[
+\begin{array}{rrr|r}
+1 & 2 & -1 & 3 \\
+2 & 5 & 1 & 12 \\
+3 & 8 & 2 & 19
+\end{array}
+\right],
+\end{align*}
+where $A = \begin{bmatrix} 1 & 2 & -1 \\
+2 & 5 & 1 \\
+3 & 8 & 2\end{bmatrix}$.
+
+\begin{exercise}
+    Determine the row operations necessary to put $A$ into an upper triangular form.  Write these row operations as elementary matrices multiplying $A$ (there should be 3).  
+\end{exercise}
+\vfill
+\begin{exercise}
+Why are elementary matrices invertible?
+\end{exercise}
+\newpage
+\begin{exercise}
+ Compute $E_1A$, then $E_2E_1A$, then $E_3E_2E_1A$.  What do you notice about the structure of each of the elementary matrices, and the structure of each of the products?
+ \end{exercise}
+ \vfill
+ \begin{exercise}
+ Write the resulting upper triangular matrix as the product $L_2L_1A$, where $L_1$ takes $A$ and zeroes out the first column except for the first entry, and $L_2$ takes $L_1A$ and zeros out the second column except for the first two entries.  (These are called elimination matrices.)
+ \end{exercise}
+\vfill
+\newpage
+ \begin{exercise}
+Do everything again, except instead of using numbers, consider a general matrix 
+    \begin{align*}
+        A = \begin{bmatrix} a_{11} & a_{12} & a_{13} \\
+        a_{21} & a_{22} & a_{23} \\
+        a_{31} & a_{32} & a_{33}\end{bmatrix}
+    \end{align*}
+    and assume $a_{ij} \neq 0$ for all $i,j \in \{1,2,3\}$.
+\end{exercise}
+
+
+
+\end{document}
