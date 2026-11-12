@@ -1,0 +1,104 @@
+\documentclass{ximera}
+\begin{document}
+
+    \title{Lecture 19}
+    
+    \begin{abstract} 
+        - LU decomposition continued \\
+        - LU decomposition: numerically stable version
+    \end{abstract}
+    \maketitle
+
+\textit{This lecture is an alternative to the final 1/3 of Lecture 20 and most of Lecture 21 in Trefethen \& Bau.}
+
+
+General formulas for a square matrix:
+Let $x_k$ denote the column of $E_{k-1} \cdots E_1A$.  Then $L_k$ must be chosen such that
+\begin{align*}
+    x_k = \begin{bmatrix}
+        x_{1k} \\ \vdots \\ x_{kk} \\ x_{k+1,k} \\ \vdots\\ x_{mk}
+    \end{bmatrix} \;
+    \stackrel{L_k}{\rightarrow} \; L_kx_k = \begin{bmatrix}
+        x_{1k} \\ \vdots \\ x_{kk} \\ 0 \\ \vdots \\0
+    \end{bmatrix}
+\end{align*}
+
+To do this, we wish to subtract $l_{jk}$ times row $k$ from row $j$, where $l_{jk}$ is the multiplier 
+\begin{align*}
+    l_{jk} = \frac{x_{jk}}{x_{kk}}, \quad k < j \leq m.
+\end{align*}
+The matrix $L_k$ then takes the form
+\begin{align*}
+    L_k = \begin{bmatrix}
+        1 & & & & & \\
+         & \ddots & & & & \\
+         & & 1 &&&\\
+         && -l_{k+1,k} & 1 & & \\
+         &&\vdots&& \ddots &\\
+         && -l_{mk} &&& 1
+    \end{bmatrix}
+\end{align*}
+with the nonzero subdiagonal entries situated in column $k$.
+
+In practice, these $l_{jk}$ multipliers are computed and stored directly, so we neither have to form elementary matrices nor elimination matrices outright.  (See Algorithm 20.1 in your textbook.)
+
+Only problem: this method is not backward stable.
+
+
+\begin{exercise}
+Consider the matrix
+\[
+A = \begin{pmatrix}
+10^{-4} & 1\\
+1 & 1
+\end{pmatrix}.
+\]
+
+\begin{enumerate}
+    \item Perform Gaussian elimination without pivoting to obtain an upper triangular matrix $U$. What is the multiplier used in the elimination step?
+
+    \item Now perform Gaussian elimination with partial pivoting. What row exchange is performed, and what is the resulting upper triangular matrix?
+
+    \item Explain why partial pivoting is preferable in this example. In particular, compare the sizes of the multipliers obtained in the two approaches.
+\end{enumerate}
+\end{exercise}
+
+You can show that Gaussian elimination is not backward stable (see the definition from class 1: gives exactly the right answer to nearly the wrong question).  For general matrices, there are cases where it is not even stable (which means, the method gives nearly the right answer to nearly the right question; see p. 104, Lecture 14 for more formal definitions).  We will \textcolor{red}{not} be requiring proofs of these concepts at this time.
+
+How to do (partial) pivoting for stability for an $m \times n$ matrix:
+\begin{enumerate}
+    \item Choose the largest entry in the first column, and use an interchanging matrix to make it column $1$.
+    \item Perform elementary matrix operations such that the first column has zeros on every row entry except the first.
+    \item In the second column, choose the largest entry in rows 2 through $m$.
+    \item Perform elementary matrix operations such that the second column has zeros on every row entry except the first two.
+    \item In the $k^{\text{th}}$ column, choose the largest entry in rows $k$ through $m$.
+    \item Perform elementary matrix operations such that the $k^{\text{th}}$ column has zeros on every row entry except the first $k$.
+\end{enumerate}
+
+However, permutation matrices are NOT triangular!!  For example, let's swap rows $1$ and $3$ for a $3\times 3$ matrix:
+\begin{align}
+    P = \begin{bmatrix}
+        0 & 0 & 1 \\ 0 & 1 & 0 \\ 1 & 0 & 0
+    \end{bmatrix}.
+\end{align}
+
+Alright, let's take our algorithm and make a (very cool) observation.  Suppose we have some sort of permutation matrix between each elimination matrix (and let's do 3 for now, as a simple example):
+\begin{align*}
+    L_3P_3L_2P_2L_1P_1A
+\end{align*}
+
+To maintain a lower triangular structure, if I swap something, I need to swap it back.  Let's do this in a smart way:
+\begin{align*}
+    L_3P_3L_2\textcolor{blue}{P_3^{-1}}\textcolor{red}{P_3}P_2L_1\textcolor{blue}{P_2^{-1}}\textcolor{red}{P_2}\textcolor{blue}{P_2^{-1}P_3^{-1}}\textcolor{red}{P_3P_2}P_1A
+    \\
+    L_3 \textcolor{blue}{P_3L_2P_3^{-1}} P_3P_2L_1P_2^{-1}P_3^{-1}\textcolor{blue}{P_3P_2P_1A}
+\end{align*}
+
+By ``surrounding" the elimination matrices with pivot matrices and their inverses, we swap the rows once, then swap them back. 
+Therefore, to preserve the LU structure, we can apply elementary matrices to $PA$ instead!  This is often itself just called an LU decomposition of $A$.  (See Algorithm 21.1 in your textbook for a rigorous computer implementation.)
+
+
+\end{document}
+
+
+
