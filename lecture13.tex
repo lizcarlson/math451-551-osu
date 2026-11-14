@@ -1,0 +1,89 @@
+\documentclass{ximera}
+\begin{document}
+
+    \title{Lecture 19}
+    
+    \begin{abstract} 
+        - Cholesky factorization
+    \end{abstract}
+    \maketitle
+
+\textit{This lecture is a combination of Lecture 23 and the part of Lecture 12 we did not finish}
+
+Recall: a real matrix $A\in \mathbb{R}^{m\times m}$ is symmetric if $a_{ij} = a_{ji}$ for all $i, j$, i.e. $A = A^T.$  Similarly, a complex matrix $A\in\mathbb{C}^{m\times m}$ is hermitian if $a_{ij} = \overline{a_{ji}}$, i.e. $A = A^*$.
+
+Recall also that 
+$x^*Ay = \overline{y^*Ax}$, and consequently, $x^*Ax$ is real.  If $x^*Ax > 0$, then $A$ is said to be \textbf{hermitian positive definite}.
+
+Recall also that eigenvalues are real for these matrices.  Indeed, $x^*Ax = x^*\lambda x =\lambda \|x\|_2^2\in\mathbb{R}$.  If $A$ is hermitian positive definite, then straightforwardly, $\lambda > 0$.
+
+Finally, recall that eigenvectors corresponding to distinct eigenvalues of these matrices are orthogonal:
+\begin{align*}
+    \lambda_2x_1^*x_2 = x_1^*Ax_2 = \overline{x_2^*Ax_1} = \overline{\lambda_1x_2^*x_1} = \lambda_1x_1^*x_2.
+\end{align*}
+
+These matrices arise *all the time* in physics.  Here is an example. 
+
+Moreover, take $x = e_i$ a standard basis vector, then $0 < e_i^*Ae_i = a_{ii}$, meaning ALL diagonal entries are strictly real and positive.
+
+\begin{example}
+    For what values of $a, b, c \in \mathbb{R}$ is $V = ax^2 + bxy + cy^2$ a positive polynomial?
+
+    Answer:  Let $z = [x \;y]^T$.  Then
+    \begin{align*}
+        z^T \begin{bmatrix} 
+            a & b/2 \\ b/2 & c
+        \end{bmatrix}
+        z = z^T A z.
+    \end{align*}
+    This is positive if and only if $A$ is positive definite.  Since $A$ is symmetric, it is true if and only if $A$ is symmetric positive definite!
+    This methodology and method to writing polynomials has exploded in practice in the past 20 years of research, with applications to designing power grids, determining stability of steady flows, and analyzing large-time averages of turbulent quantities to characterize fluid dynamics systems, among many other things.
+\end{example}
+
+\textcolor{red}{Do In-Class Assignment 7}
+
+Cholesky factorization is a clever way to do Gaussian elimination on a nicely structured matrix.  Indeed, in general, you have the structure, for $A = \begin{bmatrix}1 & w_1^* \\ w_1 & K_1\end{bmatrix}$,
+\begin{align*}
+    A = \begin{bmatrix}
+        1 & 0 \\ w & I
+    \end{bmatrix}
+    \begin{bmatrix}
+        1 & 0 \\ 0 & K-ww^*
+    \end{bmatrix}
+    \begin{bmatrix}
+        1 & w^* \\
+        0 & I
+    \end{bmatrix}
+    := LDL^*
+\end{align*}
+
+Here, the first matrix on the left is the $L$ in the $LU$ decomposition of $A$, whereas $DL^* = U$, due to the symmetric structure of the matrix.
+
+\textit{Finish generalizing via induction and non-unity diagonal entries next time.}
+
+% If the first entry of $A$ is *not* 1, and instead is some number $a_{11} > 0$, we then do the following decomposition:
+% \begin{align*}
+%     A &= \begin{bmatrix}
+%         a_{11} & w_1^* \\ w_1 & K_1
+%     \end{bmatrix} 
+%     \\
+%     &=
+%     \begin{bmatrix}
+%         \sqrt{a_{11}}& 0 \\ \frac{1}{\sqrt{a_{11}}}w_1 & I
+%     \end{bmatrix}
+%     \begin{bmatrix}
+%         1 & 0 \\ 0 & \frac{1}{a_{11}}(K-ww^*)
+%     \end{bmatrix}
+%     \begin{bmatrix}
+%         \sqrt{a_{11}}& \frac{1}{\sqrt{a_{11}}}w_1^*  \\ 0& I
+%     \end{bmatrix}
+% \end{align*}
+
+% \begin{theorem}
+%     Every hermitian positive definite matrix has a unique Cholesky factorization. 
+% \end{theorem}
+
+\end{document}
+
+
+
