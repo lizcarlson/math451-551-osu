@@ -1,0 +1,247 @@
+\documentclass{ximera}
+
+\begin{document}
+
+    \title{Exam 2 Prep Sheet}
+    
+    \begin{abstract} Solve the following problems.
+    \\
+    \end{abstract}
+    \maketitle
+
+
+\begin{exercise}
+    \begin{enumerate}
+        \item Let $v \in \mathbb{C}^n$, with $\|v\|_2 = 1$.  Show that the outer product $vv^*$ is a projection.
+        \vfill 
+        \item Is $vv^*$ still a projection if we do not assume that $\|v\|_2 = 1$?
+        \vfill
+    \end{enumerate}
+\end{exercise}
+
+\newpage
+\begin{exercise}
+    \begin{enumerate}
+        \item Consider the vector
+\[
+x=\begin{bmatrix}1\\1\\1\\1\end{bmatrix}.
+\]
+
+Construct a Householder reflector $H$ that maps $x$ to a multiple of $e_1$.
+\vfill
+\item Recall that $H = I - 2P_v$, for some $v \in \mathbb{R}^4$.  Explain why $v$ must be parallel to $x - Hx$.
+\end{enumerate}
+\end{exercise}
+\vfill
+\newpage
+
+\begin{exercise}
+
+Assume $A \in \mathbb{R}^{m\times n}$ with $m \gg n$ has full column rank.
+The following algorithm computes the SVD of $A$ by working with the small
+$n\times n$ matrix $A^TA$.
+
+\begin{enumerate}
+
+\item Fill in the blanks using the word bank. Some words may be used
+more than once, or not at all.
+
+\begin{center}
+\fbox{
+\begin{minipage}{0.85\textwidth}
+\centering
+symmetric \quad
+orthogonal \quad
+diagonal \quad
+transpose \quad
+ascending \quad
+descending \quad
+square root \quad
+inverse
+\end{minipage}
+}
+\end{center}
+
+\begin{lstlisting}
+Algorithm NSVD(A):
+
+    # Step 1: Form the small matrix
+    B = A' * A            # B is n x n, ________, and positive definite
+
+    # Step 2: Eigendecomposition of B
+    [V, Lambda] = eig(B)  # V is ________ and Lambda is ________
+    # Reorder so the eigenvalues are in ________ order,
+    # permuting the columns of V to match
+
+    # Step 3: Singular values
+    Sigma = ________(Lambda)     # applied entrywise on the diagonal
+
+    # Step 4: Recover the left singular vectors
+    U = A * V * ________(Sigma)
+
+    Return U, Sigma, V
+\end{lstlisting}
+
+\item The matrix $A$ maps the unit sphere in $\mathbb{R}^n$ to an
+ellipsoid in $\mathbb{R}^m$. Since $A = U\,\Sigma\,V^T$, we can read
+this map one factor at a time, from right to left.
+Match each factor to its geometric role. Each role is used exactly once.
+
+\begin{center}
+\fbox{
+\begin{minipage}{0.85\textwidth}
+\centering
+rotates/reflects the input coordinates (the sphere maps to itself) \quad
+stretches along the coordinate axes, turning the sphere into an
+ellipsoid in $\mathbb{R}^n$ \quad
+rotates/reflects the ellipsoid and embeds $\mathbb{R}^n$ isometrically
+into $\mathbb{R}^m$ as $\operatorname{range}(A)$
+\end{minipage}
+}
+\end{center}
+
+\begin{enumerate}
+    \item $V^T$: \hrulefill
+    \item $\Sigma$: \hrulefill
+    \item $U$: \hrulefill
+\end{enumerate}
+
+%\item For a unit vector $v \in \mathbb{R}^n$, the squared length of its image is $\|Av\|_2^2 = v^T(A^TA)v$. Use this fact to explain why the input direction that $A$ stretches the most is an eigenvector of $A^TA$, and what the length of the longest semi-axis is.
+
+% \item Show that the output satisfies $A = U\Sigma V^T$ and that $U$ has orthonormal columns. Where is the full column rank assumption used?
+
+% \item Forming $A^TA$ squares the condition number: $\kappa(A^TA) = \kappa(A)^2$. Explain why this makes the algorithm inaccurate for the small singular values of a badly conditioned $A$.
+
+% \item Suppose instead that $A \in \mathbb{R}^{m\times n}$ is wide, with $n \gg m$ and full row rank. In words, how would you modify the algorithm?
+
+\end{enumerate}
+
+% \section*{Instructor Answer Key}
+%
+% (a) symmetric; orthogonal; diagonal; descending; square root; inverse.
+%
+% (b) $V^T$: rotates/reflects the input coordinates (the sphere maps to
+%     itself);
+%     $\Sigma$: stretches along the coordinate axes, turning the sphere
+%     into an ellipsoid in $\mathbb{R}^n$;
+%     $U$: rotates/reflects the ellipsoid and embeds $\mathbb{R}^n$
+%     isometrically into $\mathbb{R}^m$ as $\operatorname{range}(A)$.
+%
+% (c) Write $A^TA = V\Lambda V^T$. For unit $v$ with coordinates
+%     $c = V^Tv$ (so $\sum_i c_i^2 = 1$), we get
+%     $\|Av\|^2 = \sum_i \lambda_i c_i^2 \le \lambda_1$, with equality
+%     when $v$ lies in the top eigenspace (for $\lambda_1 > \lambda_2$,
+%     exactly $v = \pm v_1$). So the longest semi-axis is $Av_1$, of
+%     length $\sqrt{\lambda_1} = \sigma_1$. Repeating the argument on
+%     the orthogonal complement of $v_1$ gives the next axis, and so
+%     on. Eigenvectors of the symmetric matrix $A^TA$ are orthogonal,
+%     so the input directions of the axes are orthogonal.
+%
+% (d) Since $A^TA = V\Sigma^2V^T$, $\Sigma$ holds the singular values.
+%     Then $U\Sigma V^T = AV\Sigma^{-1}\Sigma V^T = AVV^T = A$, using
+%     that $V$ is square and orthogonal. Also
+%     $U^TU = \Sigma^{-1}V^T(A^TA)V\Sigma^{-1}
+%           = \Sigma^{-1}\Sigma^2\Sigma^{-1} = I_n$.
+%     Full column rank makes $A^TA$ positive definite, so every
+%     $\lambda_i > 0$ and $\Sigma$ is invertible. Without it, Step 4
+%     divides by zero.
+%
+% (e) Forming $A^TA$ in floating point, and then running a symmetric
+%     eigensolver on it, each introduce absolute errors of order
+%     $\epsilon\,\lambda_1 = \epsilon\,\sigma_1^2$ in the eigenvalues.
+%     A singular value with $\sigma_i^2 \lesssim \epsilon\,\sigma_1^2$,
+%     i.e. $\sigma_i \lesssim \sqrt{\epsilon}\,\sigma_1$, is swamped by
+%     this error. In double precision, singular values below about
+%     $10^{-8}\sigma_1$ are inaccurate (for example, $\sigma_i =
+%     10^{-9}\sigma_1$ gives $\lambda_i = 10^{-18}\lambda_1$, below
+%     rounding level). A method working directly on $A$ can resolve
+%     singular values down to about $\epsilon\,\sigma_1$. The
+%     corresponding columns of $U = AV\Sigma^{-1}$ are also inaccurate
+%
+\end{exercise}
+\newpage
+\begin{exercise}
+
+For a small number $\varepsilon > 0$, let
+\[
+A_\varepsilon = \begin{bmatrix} \varepsilon & 1 \\ 1 & 1 \end{bmatrix}
+= LU,
+\qquad
+L = \begin{bmatrix} 1 & 0 \\ 1/\varepsilon & 1 \end{bmatrix},
+\quad
+U = \begin{bmatrix} \varepsilon & 1 \\ 0 & 1 - 1/\varepsilon \end{bmatrix}.
+\]
+Swapping the two rows gives the pivoted factorization
+\[
+PA_\varepsilon = \begin{bmatrix} 1 & 1 \\ \varepsilon & 1 \end{bmatrix}
+= L'U',
+\qquad
+L' = \begin{bmatrix} 1 & 0 \\ \varepsilon & 1 \end{bmatrix},
+\quad
+U' = \begin{bmatrix} 1 & 1 \\ 0 & 1 - \varepsilon \end{bmatrix}.
+\]
+For $\varepsilon = 10^{-4}$, the 2-norm condition numbers
+$\kappa(M) = \sigma_1(M)/\sigma_2(M)$ are approximately
+\begin{center}
+\begin{tabular}{c|ccccc}
+$M$ & $A_\varepsilon$ & $L$ & $U$ & $L'$ & $U'$ \\ \hline
+$\kappa(M)$ & $2.6$ & $10^{8}$ & $10^{8}$ & $1.0$ & $2.6$
+\end{tabular}
+\end{center}
+
+\begin{enumerate}
+
+\item Multiply out $LU$ to verify that it equals $A_\varepsilon$.
+Which entries of $L$ and $U$ are large when $\varepsilon$ is small?
+\vfill
+
+
+\item Estimate $\kappa(L)\,\kappa(U)$ and compare it with $\kappa(A_\varepsilon)$. Is $A_\varepsilon$ itself well-conditioned? Are its factors $L$ and $U$?
+\vfill
+
+\item Show why $\kappa(A) \le \kappa(L)\,\kappa(U)$ always holds. Does the table contradict this inequality?
+\vfill
+% \item Compare $L'$ and $U'$ with $L$ and $U$. What is the size of the multiplier in each case, and how does it relate to the condition numbers in the table?
+% \item A common rule of thumb is that solving a system with matrix $M$
+% can lose about $\log_{10}\kappa(M)$ digits of accuracy. Using it, how
+% many digits might be lost in each triangular solve when we factor
+% $A_\varepsilon = LU$, versus $PA_\varepsilon = L'U'$? What does this
+% say about why we pivot?
+
+\end{enumerate}
+
+% \section*{Instructor Answer Key}
+%
+% (a) Row 1 of $LU$ is $(\varepsilon, 1)$. Row 2 is
+%     $\frac{1}{\varepsilon}(\varepsilon, 1) + (0, 1 - \frac{1}{\varepsilon})
+%     = (1, 1)$. So $LU = A_\varepsilon$. The large entries are the
+%     multiplier $1/\varepsilon$ in $L$ and $1 - 1/\varepsilon$ in $U$.
+%
+% (b) $\kappa(L)\kappa(U) \approx 10^{8}\cdot 10^{8} = 10^{16}$, versus
+%     $\kappa(A_\varepsilon) \approx 2.6$. So $A_\varepsilon$ is
+%     well-conditioned, but $L$ and $U$ are both terribly conditioned.
+%
+% (c) Submultiplicativity of the induced 2-norm gives
+%     $\|A\|_2 = \|LU\|_2 \le \|L\|_2\|U\|_2$ and
+%     $\|A^{-1}\|_2 = \|U^{-1}L^{-1}\|_2 \le \|U^{-1}\|_2\|L^{-1}\|_2$.
+%     Multiplying the two gives $\kappa(A) \le \kappa(L)\kappa(U)$.
+%     The table is consistent with this: $2.6 \le 10^{16}$. It shows the
+%     inequality is only an upper bound and can be extremely loose,
+%     since the two sides differ by about sixteen orders of magnitude.
+%
+% (d) In $L$ the multiplier is $1/\varepsilon = 10^4$, and in $L'$ it is
+%     $\varepsilon = 10^{-4}$. The large multiplier produces large
+%     entries in both $L$ and $U$ and hence $\kappa \sim 10^8$. With the
+%     row swap the multiplier is at most 1 in magnitude, and the
+%     factors have $\kappa(L') \approx 1$, $\kappa(U') \approx 2.6$,
+%     comparable to $\kappa(A_\varepsilon)$.
+%
+% (e) Without pivoting, each triangular solve may lose about 8 digits,
+%     leaving roughly 8 of the 16 available in double precision. With
+%     pivoting, each solve loses under 1 digit. Pivoting keeps the
+%     multipliers bounded, so the factors are no worse conditioned than
+%     $A$. This is a rule of thumb, not a guarantee, but it conveys why
+%     a tiny pivot is dangerous even when $A$ is well-conditioned.
+
+\end{exercise}
+\end{document}

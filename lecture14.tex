@@ -1,0 +1,70 @@
+\documentclass{ximera}
+\begin{document}
+
+    \title{Lecture 19}
+    
+    \begin{abstract} 
+        - Finish Cholesky factorization \\
+        - Finish options for Least Squares solution methods
+    \end{abstract}
+    \maketitle
+
+\textit{This lecture is a combination of Lecture 23 and the part of Lecture 12 we did not finish}
+
+Cholesky factorization is a clever way to do Gaussian elimination on a nicely structured matrix.  Based on what we did last time, we can write (almost) any HPD matrix $A = \begin{bmatrix}1 & w_1^* \\ w_1 & K_1\end{bmatrix}$, where $K_1$ is HPD.  Then, per our work in class last week,
+\begin{align*}
+    A = \begin{bmatrix}
+        1 & 0 \\ w & I
+    \end{bmatrix}
+    \begin{bmatrix}
+        1 & 0 \\ 0 & K-ww^*
+    \end{bmatrix}
+    \begin{bmatrix}
+        1 & w^* \\
+        0 & I
+    \end{bmatrix}
+    := LDL^*
+\end{align*}
+
+Here, the first matrix on the left is the $L$ in the $LU$ decomposition of $A$, whereas $DL^* = U$, due to the symmetric structure of the matrix.  Note the suggestion that $D$ should *eventually* be diagonal, while right now it is only block diagonal.  
+
+What about a general HPD martrix $A$?  We can write this as $A = \begin{bmatrix}a_{11} & w_1^* \\ w_1 & K_1\end{bmatrix}$, where $K_1$ is HPD.  Indeed, $a_{11} > 0$ since $e_1^TAe_1 = a_{11} > 0$ by positive definiteness.  This argument can be repeated for all diagonal entires of an HPD matrix.  The corresponding base induction step is therefore
+\begin{align*}
+    A &= \begin{bmatrix}
+        a_{11} & w_1^* \\ w_1 & K_1
+    \end{bmatrix} 
+    \\
+    &=
+    \begin{bmatrix}
+        \sqrt{a_{11}}& 0 \\ \frac{1}{\sqrt{a_{11}}}w_1 & I
+    \end{bmatrix}
+    \begin{bmatrix}
+        1 & 0 \\ 0 & \frac{1}{a_{11}}(K-ww^*)
+    \end{bmatrix}
+    \begin{bmatrix}
+        \sqrt{a_{11}}& \frac{1}{\sqrt{a_{11}}}w_1^*  \\ 0& I
+    \end{bmatrix}
+\end{align*}
+
+We induct on the fact that $K - ww^*/{a_11}$ is itself an HPD matrix.  \textcolor{red}{Verify at your tables.}
+
+Consequently, let's suppose we are at step $n$, and so far we have decomposed $A$ into the form 
+$R_1*A_1R_1$.  If the upper left entry of the submatrix $K_1 - w_1w_1^*/a_{11}$, we can then write  $A_1 = \begin{bmatrix}1 & 0 \\ 0 & \tilde{R}_2^*\end{bmatrix}\begin{bmatrix}
+        1 & 0 \\ 0 & \frac{1}{a_{11}}(K-ww^*)
+    \end{bmatrix} \begin{bmatrix} 1 & 0 \\0 & \tilde{R}_2 \end{bmatrix}$,
+    where $\tilde{R}_2$ is the matrix that allows us to apply the base case inductive step to $K- ww^*/a_{11}$.  Let $R_2 = \begin{bmatrix} 1 & 0 \\0 & \tilde{R}_2 \end{bmatrix}$.  Iterating, yields, eventually, 
+    \begin{align*}
+        A = R_1^*R_2^*& \cdots R_m^* R_m \cdots R_2R_1,
+    \end{align*}
+    as your book writes it.  It can also be written as 
+
+\begin{theorem}
+    Every hermitian positive definite matrix has a unique Cholesky factorization. 
+\end{theorem}
+
+Practice: Use QR, LU, SVD, and Cholesky to solve the least squares problem (see Lecture 12)
+
+\end{document}
+
+
+
